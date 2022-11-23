@@ -6,12 +6,14 @@ const app = express();
 
 // import routes
 const userRoute = require("./routes/UserRoute");
+const adminRoute = require("./routes/AdminRoute");
 
 // middleware
 app.use(express.json());
 
 // routes
 app.use("/api/user", userRoute);
+app.use("/api/admin", adminRoute);
 
 // default route
 app.get('/', (req, res) => {
