@@ -6,17 +6,17 @@
 >api/admin/editByID
 >api/admin/deleteByID
 
-api/admin/editSalary
-api/admin/editTitle
+api/admin/editSalary // Dont want to have more than one current salary. Archive old salary and add new one
+api/admin/addTitle // Can have multiple current titles
+api/admin/removeTitle // Archives title
+api/admin/addDept // Can have multiple current departments. Edits dept_emp table
+api/admin/removeDept // Archives department. Edits dept_emp table
 
-editUserDepartment
-
-editDepartmentManager
-editDepartment
-deleteDepartment
-deleteDepartmentManager
-addDepartmentManger
-addDepartment
+deleteDepartment // Deletes department from departments table
+addDepartment // Adds department to departments table
+editDepartment // Used for renaming a department. Edits department in departments table
+removeDepartmentManager // Archives department manager. Edits dept_manager table
+addDepartmentManager // Edits dept_manager table
 */
 const db = require("../db_connection");
 
@@ -49,7 +49,7 @@ exports.getAllEmployees = (req, res) => {
     )
 }
 
-exports.getAllEmployeesCurrent = (req, res) => {
+exports.getAllEmployeesCurrent = (req, res) => { //If employee isnt in a department, they arent considered current employees
 
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
@@ -213,61 +213,38 @@ exports.editSalary = (req, res) => {
     const id = req.query.id
     const salary = req.query.salary
 
-    let sql = "UPDATE salaries SET salary = ? WHERE emp_no = ? AND to_date = '9999-01-01'"
-
-    db.query
-        (
-            sql,
-            [salary, id],
-            (err, results) => {
-                if (err) {
-                    return res.status(401).send({
-                        status: "error",
-                        message: err
-                    })
-                }
-                if (results.affectedRows === 0) {
-                    return res.status(404).send({
-                        status: "error",
-                        message: "No user found"
-                    })
-                }
-                return res.status(200).send({
-                    status: "success",
-                    results: results
+    let sql = "UPDATE salaries SET to_date = NOW() WHERE emp_no = ? and to_date = '9999-01-01'"
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        let sql2 = "INSERT INTO salaries (emp_no, salary, from_date, to_date) VALUES (?, ?, NOW(), '9999-01-01')"
+        db.query(sql2, [id, salary], (err, results) => {
+            if (err) {
+                return res.status(401).send({
+                    status: "error",
+                    message: err
                 })
             }
-        )
-}
-
-exports.editTitle = (req, res) => {
-
-    const id = req.query.id
-    const title = req.query.title
-
-    let sql = "UPDATE titles SET title = ? WHERE emp_no = ? AND to_date = '9999-01-01'"
-
-    db.query
-        (
-            sql,
-            [title, id],
-            (err, results) => {
-                if (err) {
-                    return res.status(401).send({
-                        status: "error",
-                        message: err
-                    })
-                }
-                if (results.affectedRows === 0) {
-                    return res.status(404).send({
-                        status: "error",
-                        message: "No user found"
-                    })
-                }
-                return res.status(200).send({
-                    status: "success",
-                    results: results
+            if (results.affectedRows === 0) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No user found"
                 })
             }
-        )
+            return res.status(200).send({
+                status: "success",
+                results: results
+            })
+        })
+    })
 }
