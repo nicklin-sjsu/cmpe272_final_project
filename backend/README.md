@@ -2,12 +2,12 @@ Admin Routes
 ============
 The admin routes are used to manage the backend. They have more power than users
 
-api/admin/getAllEmployees - Params: count, offset - Returns: All employees
-api/admin/getByID - Params: id - Returns: Employee with id
-api/admin/editByID - Params: id
-api/admin/deleteByID - Params: id
-api/admin/editSalary - Params: id, salary
-api/admin/editTitle - Params: id, title
+* api/admin/getAllEmployees - Params: count, offset - Returns: All employees
+* api/admin/getByID - Params: id - Returns: Employee with id
+* api/admin/editByID - Params: id
+* api/admin/deleteByID - Params: id
+* api/admin/editSalary - Params: id, salary
+* api/admin/editTitle - Params: id, title
 
 User Routes
 ==========

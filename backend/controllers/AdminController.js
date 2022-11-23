@@ -6,6 +6,11 @@ api/admin/editByID
 api/admin/deleteByID
 api/admin/editSalary
 api/admin/editTitle
+
+editUserDepartment
+editDepartment
+deleteDepartment
+editDepartmentManager
 */
 const db = require("../db_connection");
 
@@ -140,7 +145,7 @@ exports.editSalary = (req, res) => {
     const id = req.query.id
     const salary = req.query.salary
 
-    let sql = "UPDATE salaries SET salary = ? WHERE emp_no = ?"
+    let sql = "UPDATE salaries SET salary = ? WHERE emp_no = ? AND to_date = '9999-01-01'"
 
     db.query
         (
@@ -172,7 +177,7 @@ exports.editTitle = (req, res) => {
     const id = req.query.id
     const title = req.query.title
 
-    let sql = "UPDATE titles SET title = ? WHERE emp_no = ?"
+    let sql = "UPDATE titles SET title = ? WHERE emp_no = ? AND to_date = '9999-01-01'"
 
     db.query
         (
@@ -198,3 +203,5 @@ exports.editTitle = (req, res) => {
             }
         )
 }
+
+exports.editUser
