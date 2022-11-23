@@ -8,4 +8,5 @@ router.get("/getByDepartment", getByDepartment);
 router.get("/getDepartments", getDepartments);
 router.get("/getDepartmentsManagers", getDepartmentsManagers);
 router.get("/editByID", editByID);
+
 module.exports = router;

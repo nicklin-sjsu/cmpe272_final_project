@@ -166,8 +166,3 @@ exports.getDepartments = (req, res) => {
         })
     })
 }
-
-
-//get managers 
-//get salaries
-//get titles
