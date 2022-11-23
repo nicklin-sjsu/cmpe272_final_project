@@ -52,14 +52,7 @@ This route is used to let user update their name and gender
 * 401: Error
 * results: [
     {   
-        "emp_no":10001,  
-        "birth_date":"1953-09-02T07:00:00.000Z",  
-        "first_name":"Georgi",  
-        "last_name":"Facello",  
-        "gender":"M",  
-        "hire_date":"1986-06-26T07:00:00.000Z",   
-        "salary": 88958,  
-        "title": "Senior Engineer"  
+        ?????
     }
 ]   
 
