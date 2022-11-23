@@ -91,7 +91,7 @@ This route is used to get employees by department
 This route is used to get list of departments along with their managers. RARE CASES: Could include duplicates if more than one manager per department or if department has multiple managers. If department has no manager it wont show up in the results.  
 
 #### Parameters
-* id: The id of the user
+* NONE
 
 #### Response
 * 200: The user was found
