@@ -6,7 +6,8 @@
 >api/admin/editByID
 >api/admin/deleteByID
 
-api/admin/editSalary // Dont want to have more than one current salary. Archive old salary and add new one
+>api/admin/editSalary // Dont want to have more than one current salary. Archive old salary and add new one
+
 api/admin/addTitle // Can have multiple current titles
 api/admin/removeTitle // Archives title
 api/admin/addDept // Can have multiple current departments. Edits dept_emp table
@@ -28,7 +29,7 @@ exports.getAllEmployees = (req, res) => {
     let sql = "SELECT employees.emp_no, first_name, last_name FROM employees \
     ORDER BY EMP_NO DESC LIMIT ? OFFSET ?"
 
-    db.query(sql, [dept, count, offset], (err, results) => {
+    db.query(sql, [count, offset], (err, results) => {
         if (err) {
             return res.status(401).send({
                 status: "error",
@@ -58,7 +59,7 @@ exports.getAllEmployeesCurrent = (req, res) => { //If employee isnt in a departm
     JOIN current_dept_emp ON current_dept_emp.emp_no = employees.emp_no \
     WHERE current_dept_emp.to_date = '9999-01-01' ORDER BY emp_no DESC LIMIT ? OFFSET ?"
 
-    db.query(sql, [dept, count, offset], (err, results) => {
+    db.query(sql, [count, offset], (err, results) => {
         if (err) {
             return res.status(401).send({
                 status: "error",
