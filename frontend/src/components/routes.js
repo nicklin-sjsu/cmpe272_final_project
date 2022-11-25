@@ -5,6 +5,7 @@ import Admin from './admin/admin';
 import AdminMenu from './admin_menu/admin_menu';
 import RestaurantMain from './restaurant/restaurant_main';
 import UserOrder from './user_order/user_order';
+import UserDetails from './user_order/user_details';
 import Error from './error/error';
 import { getUser } from '../actions/userActions';
 import { getRestaurant, getMenu, getAdminRestaurant, getDefaultUserId } from '../actions/restaurantActions';
@@ -72,6 +73,7 @@ class routes extends Component {
                                 <>
                                     <Route exact path="/" element={<Admin />} />
                                     <Route exact path="/admin_menu" element={<AdminMenu />} />
+                                    <Route exact path="/user" element={<UserDetails />} />
                                 </>
                                 :
                                 <>
@@ -79,6 +81,8 @@ class routes extends Component {
                                     <Route exact path="/restaurant" element={<Main />} />
                                     <Route exact path="/restaurant/checkout" element={<CheckoutPage />} />
                                     <Route exact path="/restaurant/user_order" element={<UserOrder />} />
+                                    <Route exact path="/user" element={<UserDetails />} />
+
                                 </>
                         }
                     </>
