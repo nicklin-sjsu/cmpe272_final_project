@@ -12,6 +12,7 @@ class RestaurantNav extends Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Restaurant</Nav.Link>
+                            <Nav.Link href="/user">Profile</Nav.Link>
                         </Nav>
 
                         <Nav>
