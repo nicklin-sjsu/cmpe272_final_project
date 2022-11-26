@@ -59,7 +59,7 @@ exports.getAllEmployeesCurrent = (req, res) => { //If employee isnt in a departm
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
 
-    let sql ="SELECT employees.emp_no, first_name, last_name, \
+    let sql = "SELECT employees.emp_no, first_name, last_name, \
     (SELECT titles.title FROM titles WHERE employees.emp_no = titles.emp_no AND titles.to_date = '9999-01-01' LIMIT 1) AS title, \
     (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
         (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
@@ -256,4 +256,40 @@ exports.editSalary = (req, res) => {
             })
         })
     })
+}
+
+exports.getEmployeesCurrentSorted = (req, res) => {
+
+    const col = req.query.col || "emp_no"
+    const order = req.query.order || DESC //ASC or DESC
+    const count = parseInt(req.query.count) || 50
+    const offset = parseInt(req.query.offset) || 0
+
+    let sql = "SELECT employees.emp_no, first_name, last_name, \
+    (SELECT titles.title FROM titles WHERE employees.emp_no = titles.emp_no AND titles.to_date = '9999-01-01' LIMIT 1) AS title, \
+    (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
+        (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
+        as dept_name FROM employees \
+    HAVING title IS NOT NULL AND dept_name IS NOT NULL \
+    ORDER BY ? ? LIMIT ? OFFSET ?"
+
+    db.query(sql, [col, order, count, offset], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.length === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No employees found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    }
+    )
 }
