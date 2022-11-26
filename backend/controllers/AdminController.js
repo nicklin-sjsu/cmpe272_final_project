@@ -261,7 +261,7 @@ exports.editSalary = (req, res) => {
 exports.getEmployeesCurrentSorted = (req, res) => {
 
     const col = req.query.col || "emp_no"
-    const order = req.query.order || DESC //ASC or DESC
+    const order = req.query.order || "DESC" //ASC or DESC
     const count = parseInt(req.query.count) || 50
     const offset = parseInt(req.query.offset) || 0
 
