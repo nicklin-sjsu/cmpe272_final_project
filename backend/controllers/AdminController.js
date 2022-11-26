@@ -8,16 +8,16 @@
 
 >api/admin/editSalary // Dont want to have more than one current salary. Archive old salary and add new one
 
-api/admin/addTitle // Can have multiple current titles
-api/admin/removeTitle // Archives title
-api/admin/addDept // Can have multiple current departments. Edits dept_emp table
-api/admin/removeDept // Archives department. Edits dept_emp table
+api/admin/addEmpTitle // Can have multiple current titles
+api/admin/removeEmpTitle // Archives title
+api/admin/addEmpDept // Can have multiple current departments. Edits dept_emp table
+api/admin/removeEmpDept // Archives department. Edits dept_emp table
 
-deleteDepartment // Deletes department from departments table
-addDepartment // Adds department to departments table
-editDepartment // Used for renaming a department. Edits department in departments table
-removeDepartmentManager // Archives department manager. Edits dept_manager table
-addDepartmentManager // Edits dept_manager table
+api/admin/deleteDepartment // Deletes department from departments table
+api/admin/addDepartment // Adds department to departments table
+api/admin/editDepartment // Used for renaming a department. Edits department in departments table
+api/admin/removeDepartmentManager // Archives department manager. Edits dept_manager table
+api/admin/addDepartmentManager // Edits dept_manager table
 */
 const db = require("../db_connection");
 
