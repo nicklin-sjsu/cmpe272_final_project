@@ -26,8 +26,11 @@ exports.getAllEmployees = (req, res) => {
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
 
-    let sql = "SELECT employees.emp_no, first_name, last_name FROM employees \
-    ORDER BY EMP_NO DESC LIMIT ? OFFSET ?"
+    let sql = "SELECT employees.emp_no, first_name, last_name, titles.title, departments.dept_name FROM employees \
+    JOIN titles ON titles.emp_no = employees.emp_no \
+    JOIN dept_emp ON dept_emp.emp_no = employees.emp_no \
+    JOIN departments ON departments.dept_no = dept_emp.dept_no \
+    GROUP BY employees.emp_no ORDER BY employees.emp_no DESC LIMIT ? OFFSET ?"
 
     db.query(sql, [count, offset], (err, results) => {
         if (err) {
@@ -55,9 +58,12 @@ exports.getAllEmployeesCurrent = (req, res) => { //If employee isnt in a departm
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
 
-    let sql = "SELECT employees.emp_no, first_name, last_name FROM employees \
+    let sql = "SELECT employees.emp_no, first_name, last_name, titles.title, departments.dept_name FROM employees \
+    JOIN titles ON titles.emp_no = employees.emp_no \
     JOIN current_dept_emp ON current_dept_emp.emp_no = employees.emp_no \
-    WHERE current_dept_emp.to_date = '9999-01-01' ORDER BY emp_no DESC LIMIT ? OFFSET ?"
+    JOIN departments ON departments.dept_no = current_dept_emp.dept_no \
+    WHERE current_dept_emp.to_date = '9999-01-01' AND titles.to_date = '9999-01-01' \
+    ORDER BY emp_no DESC LIMIT ? OFFSET ?"
 
     db.query(sql, [count, offset], (err, results) => {
         if (err) {
