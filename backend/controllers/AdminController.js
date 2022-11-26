@@ -13,7 +13,7 @@ api/admin/removeEmpTitle // Archives title
 api/admin/addEmpDept // Can have multiple current departments. Edits dept_emp table
 api/admin/removeEmpDept // Archives department. Edits dept_emp table
 
-api/admin/deleteDepartment // Deletes department from departments table
+#api/admin/deleteDepartment // Deletes department from departments table. We shouldnt use this. Could break relationships and make some emplyees unqueriable in future
 api/admin/addDepartment // Adds department to departments table
 api/admin/editDepartment // Used for renaming a department. Edits department in departments table
 api/admin/removeDepartmentManager // Archives department manager. Edits dept_manager table
