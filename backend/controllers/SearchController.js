@@ -3,6 +3,8 @@ const levenshtein = require('fast-levenshtein');
 
 exports.searchName = (req, res) => {
     const name = req.query.name;
+    const current = req.query.current;
+
     let words = name.split(" ");
     if (words.length === 0) {
         return res.status(400).send({
@@ -23,6 +25,10 @@ exports.searchName = (req, res) => {
         } else {
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `
         }
+    }
+
+    if (current) {
+        sql += ` AND dept_emp.to_date = '9999-01-01'`
     }
 
     sql += " GROUP BY employees.emp_no LIMIT 10000" // LIMIT 10000 to prevent server from crashing
@@ -70,6 +76,7 @@ exports.searchNameAdvanced = (req, res) => {
     const name = req.query.name;
     const title = req.query.title;
     const dept_no = req.query.dept_no;
+    const current = req.query.current;
 
     let words = name.split(" ");
     if (words.length === 0) {
@@ -102,6 +109,10 @@ exports.searchNameAdvanced = (req, res) => {
         } else {
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `
         }
+    }
+
+    if (current) {
+        sql += ` AND dept_emp.to_date = '9999-01-01'`
     }
 
     sql += " GROUP BY employees.emp_no LIMIT 10000" // LIMIT 10000 to prevent server from crashing
