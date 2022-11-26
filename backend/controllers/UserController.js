@@ -124,8 +124,9 @@ exports.getByDepartment = (req, res) => {
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
 
-    let sql = "SELECT employees.emp_no, first_name, last_name FROM employees \
+    let sql = "SELECT employees.emp_no, first_name, last_name, titles.title FROM employees \
     JOIN current_dept_emp ON current_dept_emp.emp_no = employees.emp_no \
+    JOIN titles ON titles.emp_no = employees.emp_no \
     WHERE dept_no = ? ORDER BY EMP_NO DESC LIMIT ? OFFSET ?"
 
     db.query(sql, [dept, count, offset], (err, results) => {
@@ -155,8 +156,9 @@ exports.getByDepartmentCurrent = (req, res) => {
     const count = parseInt(req.query.count)
     const offset = parseInt(req.query.offset)
 
-    let sql = "SELECT employees.emp_no, first_name, last_name FROM employees \
+    let sql = "SELECT employees.emp_no, first_name, last_name, titles.title FROM employees \
     JOIN current_dept_emp ON current_dept_emp.emp_no = employees.emp_no \
+    JOIN titles ON titles.emp_no = employees.emp_no \
     WHERE dept_no = ? AND current_dept_emp.to_date = '9999-01-01' ORDER BY EMP_NO DESC LIMIT ? OFFSET ?"
 
     db.query(sql, [dept, count, offset], (err, results) => {
@@ -182,10 +184,11 @@ exports.getByDepartmentCurrent = (req, res) => {
 
 exports.getDepartmentsManagers = (req, res) => {
 
-    let sql = "SELECT departments.dept_no, departments.dept_name, employees.first_name, employees.last_name, employees.emp_no \
-    FROM departments \
+    let sql = "SELECT departments.dept_no, departments.dept_name, employees.first_name, employees.last_name, employees.emp_no, \
+    titles.title FROM departments \
     JOIN dept_manager ON dept_manager.dept_no = departments.dept_no \
     JOIN employees ON employees.emp_no = dept_manager.emp_no \
+    JOIN titles ON titles.emp_no = dept_manager.emp_no \
     WHERE dept_manager.to_date = '9999-01-01'"
 
     db.query(sql, (err, results) => {
