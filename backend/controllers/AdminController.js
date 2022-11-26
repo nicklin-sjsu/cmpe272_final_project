@@ -265,15 +265,15 @@ exports.getEmployeesCurrentSorted = (req, res) => {
     const count = parseInt(req.query.count) || 50
     const offset = parseInt(req.query.offset) || 0
 
-    let sql = "SELECT employees.emp_no, first_name, last_name, \
+    let sql = `SELECT employees.emp_no, first_name, last_name, \
     (SELECT titles.title FROM titles WHERE employees.emp_no = titles.emp_no AND titles.to_date = '9999-01-01' LIMIT 1) AS title, \
     (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
         (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
         as dept_name FROM employees \
     HAVING title IS NOT NULL AND dept_name IS NOT NULL \
-    ORDER BY ? ? LIMIT ? OFFSET ?"
+    ORDER BY ${col} ${order} LIMIT ${count} OFFSET ${offset}`
 
-    db.query(sql, [col, order, count, offset], (err, results) => {
+    db.query(sql, (err, results) => {
         if (err) {
             return res.status(401).send({
                 status: "error",
