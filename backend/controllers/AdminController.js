@@ -1,6 +1,7 @@
 /*
 >api/admin/getAllEmployees - gets all employees 
 >api/admin/getAllEmployeesCurrent - gets all employees  currently working there
+>api/admin/getEmployeesCurrentSorted - gets all employees sorted by a column
 
 >api/admin/getByID 
 >api/admin/editByID
@@ -292,4 +293,112 @@ exports.getEmployeesCurrentSorted = (req, res) => {
         })
     }
     )
+}
+
+// Add title to employee. Needs id and title string cannot be edited after creation
+exports.addEmpTitle = (req, res) => {
+
+    const id = req.query.id
+    const title = req.query.title
+
+    let sql = "INSERT INTO titles (emp_no, title, from_date, to_date) VALUES (?, ?, NOW(), '9999-01-01')"
+    db.query(sql, [id, title], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    })
+}
+
+// Archives title by setting to_date = NOW(). Needs id and exact title string to identify
+exports.removeEmpTitle = (req, res) => {
+
+    const id = req.query.id
+    const title = req.query.title
+
+    let sql = "UPDATE titles SET to_date = NOW() WHERE emp_no = ? AND title = ? AND to_date = '9999-01-01'"
+    db.query(sql, [id, title], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    })
+}
+
+// Can have multiple current departments. Needs emp_no(id) and dept_no
+exports.addEmpDept = (req, res) => {
+
+    const id = req.query.id
+    const dept_no = req.query.dept_no
+
+    let sql = "INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) VALUES (?, ?, NOW(), '9999-01-01')"
+    db.query(sql, [id, dept_no], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    })
+}
+
+// Archives department by setting to_date to NOW(). Needs emp_no(id) and dept_no
+exports.removeEmpDept = (req, res) => {
+
+    const id = req.query.id
+    const dept_no = req.query.dept_no
+
+    let sql = "UPDATE dept_emp SET to_date = NOW() WHERE emp_no = ? AND dept_no = ? AND to_date = '9999-01-01'"
+    db.query(sql, [id, dept_no], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    })
 }
