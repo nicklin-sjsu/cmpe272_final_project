@@ -64,6 +64,7 @@ exports.getAllEmployeesCurrent = (req, res) => { //If employee isnt in a departm
     (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
         (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
         as dept_name FROM employees \
+    HAVING title IS NOT NULL AND dept_name IS NOT NULL \
     ORDER BY employees.emp_no DESC LIMIT ? OFFSET ?"
 
     db.query(sql, [count, offset], (err, results) => {
