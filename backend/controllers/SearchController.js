@@ -32,7 +32,7 @@ exports.searchName = (req, res) => {
     }
 
     sql += " GROUP BY employees.emp_no LIMIT 10000" // LIMIT 10000 to prevent server from crashing
-   
+
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(401).send({
@@ -106,7 +106,7 @@ exports.searchNameAdvanced = (req, res) => {
 
     if (title) {
         sql += ` AND titles.title = '${title}'`
- 
+
     }
     if (dept_no) {
         sql += `AND departments.dept_no = '${dept_no}'`
@@ -117,7 +117,7 @@ exports.searchNameAdvanced = (req, res) => {
     }
 
     sql += " GROUP BY employees.emp_no LIMIT 10000" // LIMIT 10000 to prevent server from crashing
-   
+
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(401).send({
@@ -151,6 +151,99 @@ exports.searchNameAdvanced = (req, res) => {
         return res.status(200).send({
             status: message,
             results: searchResults
+        })
+    }
+    )
+};
+
+exports.searchEverything = (req, res) => {
+
+    //experimental but seems to work well
+    let name;
+    let words;
+    try {
+        name = req.query.name;
+        words = name.split(" ");
+    } catch (err) { console.log('name being bad') }
+
+    //optional parameters
+    const title = req.query.title; //string title
+    const dept_no = req.query.dept_name; //string department name
+    const current = req.query.current; //cuurent=yes or dont include
+    const order = req.query.order || "DESC"; //order=ASC or order=DESC
+    const col = req.query.col; //col=first_name or col=last_name or col=dept_name or col=title
+    //required parameters
+    const count = parseInt(req.query.count) || 100;
+    const offset = parseInt(req.query.offset) || 0;
+
+    let sql = `SELECT employees.emp_no, first_name, last_name, \
+    (SELECT titles.title FROM titles WHERE employees.emp_no = titles.emp_no AND titles.to_date = '9999-01-01' LIMIT 1) AS title, \
+    (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
+        (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
+        as dept_name FROM employees`;
+
+    if (title || dept_no || current || name) {
+        sql += ' HAVING'
+    }
+
+    if (name) {
+        sql += '('
+        for (let i = 0; i < words.length; i++) {
+            if (i === words.length - 1) {
+                sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%'`
+            } else {
+                sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `
+            }
+        }
+        sql += ')'
+        if(title || dept_no || current){
+            sql += ' AND'
+        }
+    }
+
+    if (title) {
+        sql += ` title = '${title}'`
+        if (dept_no || current) {
+            sql += ' AND'
+        }
+
+    }
+    if (dept_no) {
+        sql += ` dept_name = '${dept_no}'`
+        if (current) {
+            sql += ' AND'
+        }
+    }
+
+    if (current) {
+        sql += ` dept_emp.to_date = '9999-01-01'`
+    }
+
+    if (col && order) {
+        sql += ` ORDER BY ${col} ${order}`
+    }
+
+    sql += ` LIMIT ${count} OFFSET ${offset}`
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.length === 0) {
+            return res.status(401).send({
+                status: "error",
+                message: "No results found"
+            })
+        }
+
+        let message = "success";
+
+        return res.status(200).send({
+            status: message,
+            results: results
         })
     }
     )
