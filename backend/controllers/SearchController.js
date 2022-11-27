@@ -165,14 +165,14 @@ exports.searchEverything = (req, res) => {
         name = req.query.name;
         words = name.split(" ");
     } catch (err) { console.log('name being bad') }
+    //end of experimental
 
     //optional parameters
     const title = req.query.title; //string title
     const dept_no = req.query.dept_name; //string department name
     const current = req.query.current; //cuurent=yes or dont include
-    const order = req.query.order || "DESC"; //order=ASC or order=DESC
-    const col = req.query.col; //col=first_name or col=last_name or col=dept_name or col=title
-    //required parameters
+    const order = req.query.order || "ASC"; //order=ASC or order=DESC
+    const col = req.query.col; //col=emp_no, col=first_name or col=last_name or col=dept_name or col=title
     const count = parseInt(req.query.count) || 100;
     const offset = parseInt(req.query.offset) || 0;
 
