@@ -234,3 +234,25 @@ exports.getDepartments = (req, res) => {
         })
     })
 }
+
+exports.getTitles = (req, res) => {
+    let sql = "SELECT DISTINCT title from titles";
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.length === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No titles found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            results: results
+        })
+    })
+}
