@@ -13,7 +13,7 @@ exports.searchName = (req, res) => {
         })
     }
 
-    let sql = `SELECT employees.emp_no, CONCAT(first_name, ' ', last_name) AS Name, titles.title, departments.dept_name FROM employees \
+    let sql = `SELECT employees.emp_no, first_name, last_name, titles.title, departments.dept_name FROM employees \
     JOIN titles ON titles.emp_no = employees.emp_no \
     JOIN dept_emp ON dept_emp.emp_no = employees.emp_no \
     JOIN departments ON departments.dept_no = dept_emp.dept_no \
@@ -57,7 +57,7 @@ exports.searchName = (req, res) => {
             .map((result) => {
                 return {
                     ...result,
-                    distance: levenshtein.get(name, result.Name)
+                    distance: levenshtein.get(name, result.first_name + " " + result.last_name)
                 }
             })
             .sort((a, b) => a.distance - b.distance)
@@ -86,23 +86,13 @@ exports.searchNameAdvanced = (req, res) => {
         })
     }
 
-    let sql = `SELECT employees.emp_no, CONCAT(first_name, ' ', last_name) AS Name, titles.title, departments.dept_name FROM employees \
+    let sql = `SELECT employees.emp_no, first_name, last_name, titles.title, departments.dept_name FROM employees \
     JOIN titles ON titles.emp_no = employees.emp_no \
     JOIN dept_emp ON dept_emp.emp_no = employees.emp_no \
     JOIN departments ON departments.dept_no = dept_emp.dept_no \
     WHERE `;
-    if (title) {
-        sql += `titles.title = '${title}'`
-        if (dept_no) {
-            sql += ` AND `
-        }
-    }
-    if (dept_no) {
-        sql += `departments.dept_no = '${dept_no}'`
-        sql += " AND ("
-    }else{
-        sql += "("
-    }
+
+    sql += '('
 
     for (let i = 0; i < words.length; i++) {
         if (i === words.length - 1) {
@@ -112,8 +102,14 @@ exports.searchNameAdvanced = (req, res) => {
         }
     }
 
+    sql += ')'
+
+    if (title) {
+        sql += ` AND titles.title = '${title}'`
+ 
+    }
     if (dept_no) {
-        sql += ")"
+        sql += `AND departments.dept_no = '${dept_no}'`
     }
 
     if (current) {
@@ -146,7 +142,7 @@ exports.searchNameAdvanced = (req, res) => {
             .map((result) => {
                 return {
                     ...result,
-                    distance: levenshtein.get(name, result.Name)
+                    distance: levenshtein.get(name, result.first_name + " " + result.last_name)
                 }
             })
             .sort((a, b) => a.distance - b.distance)
