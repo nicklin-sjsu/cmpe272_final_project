@@ -180,7 +180,8 @@ exports.searchEverything = (req, res) => {
     (SELECT titles.title FROM titles WHERE employees.emp_no = titles.emp_no AND titles.to_date = '9999-01-01' LIMIT 1) AS title, \
     (SELECT departments.dept_name FROM departments WHERE departments.dept_no = \
         (SELECT dept_emp.dept_no FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1)) \
-        as dept_name FROM employees`;
+        as dept_name, \
+    (SELECT dept_emp.to_date FROM dept_emp WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.to_date = '9999-01-01' LIMIT 1) AS toDate FROM employees`;
 
     if (title || dept_no || current || name) {
         sql += ' HAVING'
@@ -216,7 +217,7 @@ exports.searchEverything = (req, res) => {
     }
 
     if (current) {
-        sql += ` dept_emp.to_date = '9999-01-01'`
+        sql += ` toDate = '9999-01-01'`
     }
 
     if (col && order) {
