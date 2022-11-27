@@ -100,6 +100,8 @@ exports.searchNameAdvanced = (req, res) => {
     if (dept_no) {
         sql += `departments.dept_no = '${dept_no}'`
         sql += " AND ("
+    }else{
+        sql += "("
     }
 
     for (let i = 0; i < words.length; i++) {
