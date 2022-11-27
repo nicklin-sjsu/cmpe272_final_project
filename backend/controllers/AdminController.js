@@ -9,10 +9,10 @@
 
 >api/admin/editSalary // Dont want to have more than one current salary. Archive old salary and add new one
 
-api/admin/addEmpTitle // Can have multiple current titles
-api/admin/removeEmpTitle // Archives title
-api/admin/addEmpDept // Can have multiple current departments. Edits dept_emp table
-api/admin/removeEmpDept // Archives department. Edits dept_emp table
+>api/admin/addEmpTitle // Can have multiple current titles
+>api/admin/removeEmpTitle // Archives title
+>api/admin/addEmpDept // Can have multiple current departments. Edits dept_emp table
+>api/admin/removeEmpDept // Archives department. Edits dept_emp table
 
 #api/admin/deleteDepartment // Deletes department from departments table. We shouldnt use this. Could break relationships and make some emplyees unqueriable in future
 api/admin/addDepartment // Adds department to departments table

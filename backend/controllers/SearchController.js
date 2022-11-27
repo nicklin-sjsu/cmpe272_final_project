@@ -99,16 +99,19 @@ exports.searchNameAdvanced = (req, res) => {
     }
     if (dept_no) {
         sql += `departments.dept_no = '${dept_no}'`
+        sql += " AND ("
     }
-
-    sql += " AND ("
 
     for (let i = 0; i < words.length; i++) {
         if (i === words.length - 1) {
-            sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%')`
+            sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%'`
         } else {
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `
         }
+    }
+
+    if (dept_no) {
+        sql += ")"
     }
 
     if (current) {
