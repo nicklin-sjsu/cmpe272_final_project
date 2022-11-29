@@ -402,3 +402,83 @@ exports.removeEmpDept = (req, res) => {
         })
     })
 }
+
+// edit department edits department in department table
+exports.editDepartment = (req, res) => {
+    const dept_no = req.query.dept_no;
+    const dept_name = req.query.dept_name;
+    let sql = 'UPDATE employees.departments SET dept_name=? WHERE dept_no=?'
+    db.query(sql, [dept_name, dept_no], (err, result) => {
+        if (err) {
+            return res.status(401).send({
+                status: 'error',
+                messagae: 'error'
+
+            })
+        }
+        if (result.affectedRows === 0) {
+            return res.status(401).send({
+                status: 'error',
+                messagae: 'user not found'
+            })
+        }
+        return res.status(200).send({
+            status: 'success',
+            messagae: result
+        })
+    })
+}
+
+// addDepartment adds department to the table
+exports.addDepartment = (req, res) => {
+    const id = req.query.id;
+    const dept_name = req.query.dept_name;
+
+    let sqlquery = "INSERT INTO departments (dept_no,dept_name) values (?,?)"
+    db.query(sqlquery, [id, dept_name], (err, result) => {
+        if (err) {
+            return res.status(401).send({
+                status: 'error',
+                meassage: err
+
+            })
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "success",
+            result: result
+        })
+    })
+
+
+}
+
+//deleteDepartment deletes the department from department table
+exports.deleteDepartment = (req, res) => {
+    const id = req.query.id;
+    let sqlquery = "DELETE FROM departments WHERE dept_no = ?"
+    db.query(sqlquery, [id], (err, result) => {
+        if (err) {
+            return res.status(401).send({
+                status: 'error',
+                meassage: err
+
+            })
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "deleted successfully",
+            result: result
+        })
+    })
+}
