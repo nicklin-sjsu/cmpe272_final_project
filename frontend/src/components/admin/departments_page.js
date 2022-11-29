@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Container } from "react-bootstrap";
 import AdminNav from '../nav/admin_nav';
-import User from '../user/user_details';
-import { isEmpty } from '../utils';
+import Departments from '../admin/departments';
 
-class ViewUser extends Component {
+class DepartmentsPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -15,7 +14,7 @@ class ViewUser extends Component {
                 <AdminNav />
                 <br />
                 <Container>
-                    <User />
+                    <Departments />
                 </Container>
                 <br />
             </>
@@ -23,4 +22,4 @@ class ViewUser extends Component {
     }
 }
 
-export default ViewUser;
+export default DepartmentsPage;
