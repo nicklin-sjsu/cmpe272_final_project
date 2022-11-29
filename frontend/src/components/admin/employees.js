@@ -62,6 +62,8 @@ class AdminMain extends Component {
             } else if (mode === "searchall") {
                 api_name = "/api/admin/getEmployeesCurrentSorted?";
                 current = "no";
+            } else if (mode === "managers") {
+                api_name = "/api/user/getDepartmentsManagers?";
             }
 
             const api = process.env.REACT_APP_API || "http://192.168.56.1:4080";
@@ -111,64 +113,69 @@ class AdminMain extends Component {
             <>
                 <Container>
                     <Row>
-                        <Card className="mb-2">
-                            <Card.Body>
-                                <Row>
-                                    <Col>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Name</Form.Label>
-                                            <Form.Control type="text" value={this.state.name} onChange={e => this.handleNameChange(e)} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Department</Form.Label>
-                                            <Form.Select value={this.state.dept_name} onChange={(e) => this.handleDeptChange(e)}>
-                                                <option value=""></option>
-                                                {this.state.departments && this.state.departments.length ? this.state.departments.map((department, index) => (
-                                                    <Fragment key={`${department}~${index}`}>
-                                                        <option value={department.dept_name}>{department.dept_name}</option>
-                                                    </Fragment>
-                                                ))
-                                                    :
-                                                    <></>
-                                                }
-                                            </Form.Select>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Title</Form.Label>
-                                            <Form.Select value={this.state.title} onChange={(e) => this.handleTitleChange(e)}>
-                                                <option value=""></option>
-                                                {this.state.titles && this.state.titles.length ? this.state.titles.map((title, index) => (
-                                                    <Fragment key={`${title}~${index}`}>
-                                                        <option value={title.title}>{title.title}</option>
-                                                    </Fragment>
-                                                ))
-                                                    :
-                                                    <></>
-                                                }
-                                            </Form.Select>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <a href={"/admin?" + new URLSearchParams({
-                                            page: 1,
-                                            name: this.state.name,
-                                            title: this.state.title,
-                                            dept_name: this.state.dept_name,
-                                            title: this.state.title,
-                                            mode: "search",
-                                            col: this.state.col,
-                                            order: this.state.order,
-                                        })} className="my-4 btn btn-primary">
-                                            Search
-                                        </a>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
+                        {mode === "default" || mode === "search" ?
+                            <Card className="mb-2">
+                                <Card.Body>
+                                    <Row>
+                                        <Col>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Name</Form.Label>
+                                                <Form.Control type="text" value={this.state.name} onChange={e => this.handleNameChange(e)} />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Department</Form.Label>
+                                                <Form.Select value={this.state.dept_name} onChange={(e) => this.handleDeptChange(e)}>
+                                                    <option value=""></option>
+                                                    {this.state.departments && this.state.departments.length ? this.state.departments.map((department, index) => (
+                                                        <Fragment key={`${department}~${index}`}>
+                                                            <option value={department.dept_name}>{department.dept_name}</option>
+                                                        </Fragment>
+                                                    ))
+                                                        :
+                                                        <></>
+                                                    }
+                                                </Form.Select>
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Title</Form.Label>
+                                                <Form.Select value={this.state.title} onChange={(e) => this.handleTitleChange(e)}>
+                                                    <option value=""></option>
+                                                    {this.state.titles && this.state.titles.length ? this.state.titles.map((title, index) => (
+                                                        <Fragment key={`${title}~${index}`}>
+                                                            <option value={title.title}>{title.title}</option>
+                                                        </Fragment>
+                                                    ))
+                                                        :
+                                                        <></>
+                                                    }
+                                                </Form.Select>
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <a href={"/admin?" + new URLSearchParams({
+                                                page: 1,
+                                                name: this.state.name,
+                                                title: this.state.title,
+                                                dept_name: this.state.dept_name,
+                                                title: this.state.title,
+                                                mode: "search",
+                                                col: this.state.col,
+                                                order: this.state.order,
+                                            })} className="my-4 btn btn-primary">
+                                                Search
+                                            </a>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                            :
+                            <></>
+                        }
+
                         <Card className="mb-2 items-body">
                             <Card.Body>
                                 <Row>

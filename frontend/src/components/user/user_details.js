@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 const searchParams = new URLSearchParams(document.location.search);
 const emp_no = searchParams.get('emp_no');
 
+const genderName = {"M": "Male", "F": "Female"}
+
 class UserDetails extends Component {
     constructor(props) {
         super(props);
@@ -54,6 +56,8 @@ class UserDetails extends Component {
         if (this.props.user.level === "admin") {
             user = this.state.result.userData;
             user.salary = this.state.result.salaryData[0].salary;
+            user.department = this.state.result.deptData[0].dept_name;
+            user.title = this.state.result.titleData[0].title;
         }
         return (
             <Container>
@@ -76,13 +80,32 @@ class UserDetails extends Component {
                         <ListGroup.Item>
                             <div className="ms-2 me-auto">
                                 <div className="fw-bold">Gender</div>
-                                {user.gender}
+
+                                {genderName[user.gender]}
+                            </div>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <div className="ms-2 me-auto">
+                                <div className="fw-bold">Department</div>
+                                {user.department}
+                            </div>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <div className="ms-2 me-auto">
+                                <div className="fw-bold">Title</div>
+                                {user.title}
+                            </div>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <div className="ms-2 me-auto">
+                                <div className="fw-bold">Birth Date</div>
+                                {user.birth_date.split("T")[0]}
                             </div>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <div className="ms-2 me-auto">
                                 <div className="fw-bold">Hire Date</div>
-                                {user.hire_date}
+                                {user.hire_date.split("T")[0]}
                             </div>
                         </ListGroup.Item>
                         <ListGroup.Item>

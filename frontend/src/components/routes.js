@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Main from './main/main';
-import Admin from './admin/admin';
-import ViewUser from './admin/view_user';
-import RestaurantMain from './restaurant/restaurant_main';
+import EmployeesPage from './admin/employees_page';
+import UserPage from './user/user_page';
 import UserDetails from './user/user_details';
-import ManageUser from './user/manage_user';
+import ManagePage from './user/manage_page';
+import DepartmentsPage from './admin/departments_page';
+import TitlesPage from './admin/titles_page';
 import SSO from './sso/signin';
 import Error from './error/error';
 import { getUser } from '../actions/userActions';
-import { getRestaurant, getMenu, getAdminRestaurant, getDefaultUserId } from '../actions/restaurantActions';
-import { getOrder } from '../actions/orderActions';
 import store from '../store';
 import { connect } from 'react-redux';
 import { isEmpty } from './utils';
-import CheckoutPage from './checkout/checkout_page';
 
 class routes extends Component {
     constructor(props) {
@@ -47,10 +44,12 @@ class routes extends Component {
                         {
                             this.props.user && this.props.user.level === 'admin' ?
                                 <>
-                                    <Route exact path="/admin" element={<Admin />} />
-                                    <Route exact path="/user" element={<ViewUser />} />
-                                    <Route exact path="/edituser" element={<ManageUser mode="edit" />} />
-                                    <Route exact path="/adduser" element={<ManageUser mode="add" />} />
+                                    <Route exact path="/employees" element={<EmployeesPage />} />
+                                    <Route exact path="/user" element={<UserPage />} />
+                                    <Route exact path="/edituser" element={<ManagePage mode="edit" />} />
+                                    //<Route exact path="/adduser" element={<ManagePage mode="add" />} />
+                                    <Route exact path="/departments" element={<DepartmentsPage />} />
+                                    <Route exact path="/titles" element={<TitlesPage />} />
                                     <Route exact path="/sso" element={<SSO />} />
                                 </>
                                 :

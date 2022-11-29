@@ -50,48 +50,6 @@ class employeeItem extends React.Component {
                 
                 <br />
             </>
-            //{
-            //    this.state.modalShow ?
-            //        <TablePopup
-            //            show={this.state.modalShow}
-            //            onHide={() => this.setState({ modalShow: false })}
-            //            table={this.state.item}
-            //            operation={this.state.operation}
-            //            getTables={this.getTables}
-            //        />
-            //        :
-            //        <></>
-            //}
-            //    <Card.Title>{table.name}</Card.Title>
-            //            <p className="card-text">Capacity: {table.capacity}</p>
-            //            <p className="card-text">Description: {table.description}</p>
-            //            <p className="card-text">Table Status: {statusMap[table.status]}</p>
-            //            <Form.Group>
-            //                <Form.Label>Status</Form.Label>
-            //                <Form.Select aria-label="Default select example" className="w-25" value={table.status} onChange={(e) => this.handleStatusChange(e)}>
-            //                    <option value="In_Use">In Use</option>
-            //                    <option value="Empty">Empty</option>
-            //                </Form.Select>
-            //            </Form.Group>
-            //            <Form.Label>Customers</Form.Label>
-            //            <Form.Control type="number" className="w-25" min="0" defaultValue={table.guest_n} />
-            //                {
-            //    this.state.orders && this.state.orders.length ? this.state.orders.map((order, index) => (
-            //        <Fragment key={`${order}~${index}`}>
-            //            <Row className="my-3">
-            //                <Col>
-            //                    <Order data={order} getTables={this.props.getTables} getOrders={this.getOrders} />
-            //                </Col>
-            //            </Row>
-            //        </Fragment>
-            //    )) : null
-            //}
-            //<div className="d-flex justify-content-end">
-            //    <a href={qr} target="_blank" download><Button variant="info" className="m-2">QR Code</Button></a>
-            //    <Button variant="secondary" className="m-2" onClick={() => this.props.handleAdd("update", table)}>Edit Table</Button>
-            //    <Button variant="danger" className="m-2" onClick={() => this.handleStatusChange("Empty")}>Close Table</Button>
-            //    <Button variant="primary" className="m-2" onClick={() => this.handleStatusChange("In_Use")}>Open Table</Button>
-            //</div>
         );
     }
 }

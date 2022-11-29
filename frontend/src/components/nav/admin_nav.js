@@ -28,7 +28,10 @@ class AdminNav extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/admin">Current Employees</Nav.Link>
+                            <Nav.Link href="/employees?mode=default">Employees</Nav.Link>
+                            <Nav.Link href="/employees?mode=managers">Managers</Nav.Link>
+                            <Nav.Link href="/departments">Departments</Nav.Link>
+                            <Nav.Link href="/titles">Titles</Nav.Link>
                         </Nav>
 
                         <Nav>
