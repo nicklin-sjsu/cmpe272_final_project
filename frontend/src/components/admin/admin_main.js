@@ -14,7 +14,6 @@ const mode = searchParams.get('mode') || "default";
 const name = searchParams.get('name') || "";
 const dept_name = searchParams.get('dept_name') || "";
 const title = searchParams.get('title') || "";
-console.log(mode);
 
 class AdminMain extends Component {
     constructor(props) {
@@ -29,17 +28,14 @@ class AdminMain extends Component {
             employees: [],
         };
         this.getData();
-        if (mode === "search") {
-            this.handleSearch();
-        } else {
-            this.getList();
-        }
+        this.getList(mode);
     }
     getData() {
         var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
         fetch(api + "/api/user/getDepartments")
             .then((response) => response.json())
             .then(data2 => {
+                console.log(data2);
                 if (data2.status === "success") {
                     fetch(api + "/api/user/getTitles")
                         .then((response) => response.json())
@@ -55,22 +51,40 @@ class AdminMain extends Component {
                 }
             });
     }
-    getList() {
-        var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
-        fetch(api + "/api/admin/getEmployeesCurrentSorted?" + new URLSearchParams({
-            col: this.state.col,
-            order: this.state.order,
-            count: count,
-            offset: (page - 1) * count,
-        }))
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.status === "success") {
-                    this.setState({ employees: data.results });
-                } else {
-                    alert(data.message);
-                }
-            });
+    getList(mode) {
+        if (this.state.title !== "" && this.state.dept_name === "") {
+            alert("Please select department when searching with title");
+        } else {
+            var current = "yes";
+            var api_name = "/api/admin/getEmployeesCurrentSorted?";
+            if (mode === "search") {
+                api_name = "/api/search/searchEverything?";
+            } else if (mode === "searchall") {
+                api_name = "/api/admin/getEmployeesCurrentSorted?";
+                current = "no";
+            }
+
+            const api = process.env.REACT_APP_API || "http://192.168.56.1:4080";
+            fetch(api + api_name + new URLSearchParams({
+                name: this.state.name,
+                title: this.state.title,
+                dept_name: this.state.dept_name,
+                title: this.state.title,
+                col: this.state.col,
+                order: this.state.order,
+                count: count,
+                offset: (page - 1) * count,
+                current: current,
+            }))
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === "success") {
+                        this.setState({ employees: data.results, mode: "search" });
+                    } else {
+                        alert(data.message);
+                    }
+                });
+        }
     }
     handleNameChange(e) {
         this.setState({ name: e.target.value });
@@ -87,37 +101,7 @@ class AdminMain extends Component {
             order = "ASC"
         }
         await this.setState({ col: col, order: order });
-        if (this.state.mode === "default") {
-            this.getList();
-        } else {
-            this.handleSearch();
-        }
-    }
-
-    handleSearch() {
-        if (this.state.title !== "" && this.state.dept_name === "") {
-            alert("Please select department when searching with title");
-        } else {
-            const api = process.env.REACT_APP_API || "http://192.168.56.1:4080";
-            fetch(api + "/api/search/searchEverything?" + new URLSearchParams({
-                name: this.state.name,
-                title: this.state.title,
-                dept_name: this.state.dept_name,
-                title: this.state.title,
-                col: this.state.col,
-                order: this.state.order,
-                count: count,
-                offset: (page - 1) * count,
-            }))
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        this.setState({ employees: data.results, mode: "search" });
-                    } else {
-                        alert(data.message);
-                    }
-                });
-        }
+        this.getList(this.state.mode);
     }
 
     render() {
@@ -169,9 +153,6 @@ class AdminMain extends Component {
                                         </Form.Group>
                                     </Col>
                                     <Col>
-                                        {/*<Button variant="primary" onClick={e => this.handleSearch(e)} className="my-4">*/}
-                                        {/*    Search*/}
-                                        {/*</Button>*/}
                                         <a href={"/admin?" + new URLSearchParams({
                                             page: 1,
                                             name: this.state.name,

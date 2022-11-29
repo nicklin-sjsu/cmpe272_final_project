@@ -4,8 +4,9 @@ import Main from './main/main';
 import Admin from './admin/admin';
 import ViewUser from './admin/view_user';
 import RestaurantMain from './restaurant/restaurant_main';
-import UserOrder from './user_order/user_order';
-import UserDetails from './user_order/user_details';
+import UserDetails from './user/user_details';
+import ManageUser from './user/manage_user';
+import SSO from './sso/signin';
 import Error from './error/error';
 import { getUser } from '../actions/userActions';
 import { getRestaurant, getMenu, getAdminRestaurant, getDefaultUserId } from '../actions/restaurantActions';
@@ -48,11 +49,12 @@ class routes extends Component {
                                 <>
                                     <Route exact path="/admin" element={<Admin />} />
                                     <Route exact path="/user" element={<ViewUser />} />
+                                    <Route exact path="/edituser" element={<ManageUser mode="edit" />} />
+                                    <Route exact path="/adduser" element={<ManageUser mode="add" />} />
+                                    <Route exact path="/sso" element={<SSO />} />
                                 </>
                                 :
                                 <>
-                                    <Route exact path="*" element={<UserDetails />} />
-                                    <Route exact path="/restaurant/user_order" element={<UserOrder />} />
                                     <Route exact path="/user" element={<UserDetails />} />
                                 </>
                         }
