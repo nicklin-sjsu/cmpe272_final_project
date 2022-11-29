@@ -14,6 +14,7 @@ import store from '../store';
 import { connect } from 'react-redux';
 import { isEmpty } from './utils';
 import CheckoutPage from './checkout/checkout_page';
+import SSO from './sso/ssov2';
 
 class routes extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class routes extends Component {
     render() {
         return (
             <Routes>
+                 <Route exact path="/sso" element={<SSO />} />
                 {this.state.error || this.state.loading
                     ?
                     <>
