@@ -10,15 +10,15 @@ const SSO = () => {
     useEffect(() => {
         console.log("hi");
 
-        axios.get(process.env.REACT_APP_API + '/userindentity', { withCredentials: true })
+        axios.get('http://localhost:5002/useridentity', { withCredentials: true })
             .then(res => {
                 console.log("A:", res.data);
                 if (res.data.user) {
-                console.log("B:", res.data.user);
-                setIdentifier(res.data);
+                //console.log("B:", res.data.user);
+                setIdentifier(res.data.user);
                 setLoading(false);
                 } else {
-                  //redirectToLogin();
+                  redirectToLogin();
                 }
             }).catch(err => {
                 console.log(err);
@@ -35,7 +35,9 @@ const SSO = () => {
         return (
             <div>
                 <p>loading...</p>
+                
             </div>
+
         )
     }
 
@@ -43,9 +45,14 @@ const SSO = () => {
         <div>
             <p>yov2</p>
             <br></br>
-            <p>{JSON.stringify(identifier)}</p>
+            <button onClick={redirectToLogin}>PLS</button>
+            <p>{identifier.nameID}</p>
+            
         </div>
     )
 }
 
 export default SSO;
+
+
+//<button onClick={redirectToLogin()}>PLS</button>

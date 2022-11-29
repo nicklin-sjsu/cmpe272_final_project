@@ -7,6 +7,7 @@ const config = {
         issuer: "http://localhost:5002",
         options: {
             failureRedirect: "/login",
+            successRedirect: "/safety",
             failureFlash: true,
         }
     },

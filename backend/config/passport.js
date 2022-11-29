@@ -1,9 +1,10 @@
 const fs = require('fs');
 const passport = require('passport');
-const Strategy = require('passport-saml').Strategy;
+const SAMLStrategy = require('passport-saml').Strategy;
 const config = require('./config');
 
 const savedUsers = [];
+console.log("hello?")
 
 passport.serializeUser((user, done) => {
     console.log('serializeUser');
@@ -15,7 +16,7 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-passport.use(new Strategy({
+passport.use(new SAMLStrategy({
     issuer: config.saml.issuer,
     protocol: 'http://',
     path: '/login/callback',
