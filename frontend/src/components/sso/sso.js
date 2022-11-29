@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Tab, Tabs, Container } from "react-bootstrap";
 import Signin from '../sso/signin'
 import Register from '../sso/register'
 
 class SSO extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {
+        /*this.state = {
             activeKey: "signin",
-        }
-        this.setK = this.setK.bind(this);
+        }*/
+        //this.setK = this.setK.bind(this);
     }
-    setK(k) {
+    /*setK(k) {
         this.setState({ activeKey: k });
-    }
+    }*/
 
     render() {
         return (
+            <div>
+                <p>yo</p>
+            </div>
+        )
+    }
+}
+
+export default SSO;
+
+
+/**
+ * return (
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
@@ -38,7 +51,4 @@ class SSO extends React.Component {
                 </Modal.Body>
             </Modal>
         )
-    }
-}
-
-export default SSO;
+ */

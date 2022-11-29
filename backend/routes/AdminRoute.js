@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
     getAllEmployees, getByID, editByID, deleteByID, editSalary, getAllEmployeesCurrent, getEmployeesCurrentSorted,
-    addEmpDept, removeEmpDept, addEmpTitle, removeEmpTitle
+    addEmpDept, removeEmpDept, addEmpTitle, removeEmpTitle, addDepartment, editDepartment, deleteDepartment 
 } = require("../controllers/AdminController");
 
 router.get("/getAllEmployees", getAllEmployees);
@@ -16,5 +16,8 @@ router.get("/addEmpDept", addEmpDept);
 router.get("/removeEmpDept", removeEmpDept);
 router.get("/addEmpTitle", addEmpTitle);
 router.get("/removeEmpTitle", removeEmpTitle);
+router.get("/addDepartment", addDepartment);
+router.get("/editDepartment", editDepartment);
+router.get("/deleteDepartment", deleteDepartment);
 
 module.exports = router;
