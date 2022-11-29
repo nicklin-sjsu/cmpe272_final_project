@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './main/main';
 import Admin from './admin/admin';
-import AdminMenu from './admin_menu/admin_menu';
+import ViewUser from './admin/view_user';
 import RestaurantMain from './restaurant/restaurant_main';
 import UserOrder from './user_order/user_order';
 import UserDetails from './user_order/user_details';
@@ -26,42 +26,17 @@ class routes extends Component {
 
     componentDidMount() {
         if (isEmpty(this.props.user)) {
-            const token = sessionStorage.getItem("token");
-            store.dispatch(getUser(token));
-        }
-        if (window.location.pathname.includes("restaurant")) {
-            const searchParams = new URLSearchParams(document.location.search);
-            const restaurant_id = searchParams.get('restaurant_id');
-            if (restaurant_id == null) {
-                this.setState({ error: true });
-            }
-            if (isEmpty(this.props.restaurant)) {
-                store.dispatch(getRestaurant(restaurant_id));
-            }
-            if (isEmpty(this.props.menu)) {
-                store.dispatch(getMenu(restaurant_id));
-            }
-            if (isEmpty(this.props.order)) {
-                store.dispatch(getOrder(restaurant_id));
-            }
-            if (this.props.defaultUserId == -1) {
-                store.dispatch(getDefaultUserId());
-            }
+            //const token = sessionStorage.getItem("token");
+            //store.dispatch(getUser(token));
+            store.dispatch(getUser());
         }
         this.setState({ loading: false });
     }
 
     render() {
-        let error = this.state.error;
-        if (window.location.pathname.includes("restaurant") && isEmpty(this.props.restaurant)) {
-            error = true;
-        }
-        if (isEmpty(this.props.restaurant) && this.props.user.level === 'admin') {
-            store.dispatch(getAdminRestaurant(this.props.user.id));
-        }
         return (
             <Routes>
-                {error || this.state.loading
+                {this.state.error || this.state.loading
                     ?
                     <>
                         <Route exact path="*" element={<Error />} />
@@ -71,23 +46,18 @@ class routes extends Component {
                         {
                             this.props.user && this.props.user.level === 'admin' ?
                                 <>
-                                    <Route exact path="/" element={<Admin />} />
-                                    <Route exact path="/admin_menu" element={<AdminMenu />} />
-                                    <Route exact path="/user" element={<UserDetails />} />
+                                    <Route exact path="/admin" element={<Admin />} />
+                                    <Route exact path="/user" element={<ViewUser />} />
                                 </>
                                 :
                                 <>
-                                    <Route exact path="*" element={<RestaurantMain />} />
-                                    <Route exact path="/restaurant" element={<Main />} />
-                                    <Route exact path="/restaurant/checkout" element={<CheckoutPage />} />
+                                    <Route exact path="*" element={<UserDetails />} />
                                     <Route exact path="/restaurant/user_order" element={<UserOrder />} />
                                     <Route exact path="/user" element={<UserDetails />} />
-
                                 </>
                         }
                     </>
                 }
-
             </Routes>
         )
     }
@@ -96,10 +66,6 @@ class routes extends Component {
 const mapStateToProps = store => {
     return {
         user: store.userState.user,
-        restaurant: store.restaurantState.restaurant,
-        menu: store.restaurantState.menu,
-        defaultUserId: store.restaurantState.defaultUserId,
-        order: store.orderState.order,
     }
 }
 

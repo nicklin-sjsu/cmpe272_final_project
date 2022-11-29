@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container } from "react-bootstrap";
 import AdminNav from '../nav/admin_nav';
-import AdminMain from '../admin/admin_main';
+import User from '../user_order/user_details';
+import { isEmpty } from '../utils';
 
-class Admin extends Component {
+class ViewUser extends Component {
     constructor(props) {
         super(props);
     }
@@ -11,11 +12,10 @@ class Admin extends Component {
     render() {
         return (
             <>
-
                 <AdminNav />
                 <br />
                 <Container>
-                    <AdminMain />
+                    <User />
                 </Container>
                 <br />
             </>
@@ -23,4 +23,4 @@ class Admin extends Component {
     }
 }
 
-export default Admin;
+export default ViewUser;

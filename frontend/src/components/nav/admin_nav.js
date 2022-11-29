@@ -21,15 +21,14 @@ class AdminNav extends Component {
                             width="30"
                             height="30"
                             className="d-inline-block me-2"
-                            alt="React Bootstrap logo"
+                            alt=""
                         />
                         {restaurant ? restaurant.name : ''}
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/">Orders</Nav.Link>
-                            <Nav.Link href="/admin_menu">Menu</Nav.Link>
+                            <Nav.Link href="/admin">Employees</Nav.Link>
                         </Nav>
 
                         <Nav>
