@@ -6,7 +6,7 @@ import UserDetails from './user/user_details';
 import ManagePage from './user/manage_page';
 import DepartmentsPage from './admin/departments_page';
 import TitlesPage from './admin/titles_page';
-import SSO from './sso/signin';
+//import SSO from './sso/signin';
 import Error from './error/error';
 import { getUser } from '../actions/userActions';
 import store from '../store';
@@ -36,7 +36,6 @@ class routes extends Component {
     render() {
         return (
             <Routes>
-                 <Route exact path="/sso" element={<SSO />} />
                 {this.state.error || this.state.loading
                     ?
                     <>
