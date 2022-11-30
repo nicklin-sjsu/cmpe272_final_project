@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const searchParams = new URLSearchParams(document.location.search);
 const emp_no = searchParams.get('emp_no');
 
-const genderName = {"M": "Male", "F": "Female"}
+const genderName = { "M": "Male", "F": "Female" }
 
 class UserDetails extends Component {
     constructor(props) {
@@ -37,13 +37,15 @@ class UserDetails extends Component {
                 fetch(api + "/api/admin/getByID?" + new URLSearchParams({
                     id: emp_no,
                 }))
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.status === "success") {
-                            this.setState({ result: data.results, loading: false });
+                    .then((response) => {
+                        if (response.status === 200) {
+                            return response.json();
                         } else {
-                            alert(data.status);
+                            alert(response.statusText);
                         }
+                    })
+                    .then((data) => {
+                        this.setState({ result: data.results, loading: false });
                     });
             }
         }
@@ -116,7 +118,7 @@ class UserDetails extends Component {
                         </ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
-                        <a className="btn btn-primary" href={"/edituser?emp_no=" + emp_no }>Edit Details</a>
+                        <a className="btn btn-primary" href={"/edituser?emp_no=" + emp_no}>Edit Details</a>
                     </Card.Body>
                 </Card>
             </Container>

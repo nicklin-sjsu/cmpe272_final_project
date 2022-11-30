@@ -30,8 +30,7 @@ class AdminNav extends Component {
                         <Nav className="me-auto">
                             <Nav.Link href="/employees?mode=default">Employees</Nav.Link>
                             <Nav.Link href="/employees?mode=managers">Managers</Nav.Link>
-                            <Nav.Link href="/departments">Departments</Nav.Link>
-                            <Nav.Link href="/titles">Titles</Nav.Link>
+                            <Nav.Link href="/company">Company</Nav.Link>
                         </Nav>
 
                         <Nav>

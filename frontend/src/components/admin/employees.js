@@ -27,28 +27,35 @@ class AdminMain extends Component {
             title: title,
             employees: [],
         };
+    }
+
+    componentDidMount() {
         this.getData();
         this.getList(mode);
     }
+
     getData() {
         var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
         fetch(api + "/api/user/getDepartments")
-            .then((response) => response.json())
-            .then(data2 => {
-                console.log(data2);
-                if (data2.status === "success") {
-                    fetch(api + "/api/user/getTitles")
-                        .then((response) => response.json())
-                        .then(data3 => {
-                            if (data3.status === "success") {
-                                this.setState({ departments: data2.results, titles: data3.results });
-                            } else {
-                                alert(data3.message);
-                            }
-                        });
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
                 } else {
-                    alert(data2.message);
+                    alert(response.statusText);
                 }
+            })
+            .then(data2 => {
+                fetch(api + "/api/user/getDepartmentsManagers")
+                    .then((response) => {
+                        if (response.status === 200) {
+                            return response.json();
+                        } else {
+                            alert(response.statusText);
+                        }
+                    })
+                    .then(data3 => {
+                        this.setState({ departments: data2.results, titles: data3.results });
+                    });
             });
     }
     getList(mode) {
@@ -78,13 +85,15 @@ class AdminMain extends Component {
                 offset: (page - 1) * count,
                 current: current,
             }))
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        this.setState({ employees: data.results, mode: "search" });
+                .then((response) => {
+                    if (response.status === 200) {
+                        return response.json();
                     } else {
-                        alert(data.message);
+                        alert(response.statusText);
                     }
+                })
+                .then((data) => {
+                    this.setState({ employees: data.results, mode: "search" });
                 });
         }
     }
