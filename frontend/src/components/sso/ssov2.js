@@ -14,11 +14,11 @@ const SSO = () => {
             .then(res => {
                 console.log("A:", res.data);
                 if (res.data.user) {
-                //console.log("B:", res.data.user);
-                setIdentifier(res.data.user);
-                setLoading(false);
+                    //console.log("B:", res.data.user);
+                    setIdentifier(res.data.user);
+                    setLoading(false);
                 } else {
-                  redirectToLogin();
+                    redirectToLogin();
                 }
             }).catch(err => {
                 console.log(err);
@@ -31,11 +31,22 @@ const SSO = () => {
         window.location.replace("http://localhost:5002/login");
     }
 
+    const SignOut = () => {
+        /*axios.get('http://localhost:5002/logout')
+            .then(res => {
+                console.log(res);
+                //window.location.replace("http://localhost:3000/");
+            }).catch(err => {
+                console.log(err);
+            });*/
+            console.log("failure");
+    }
+
     if (loading) {
         return (
             <div>
                 <p>loading...</p>
-                
+
             </div>
 
         )
@@ -45,9 +56,9 @@ const SSO = () => {
         <div>
             <p>yov2</p>
             <br></br>
-            <button onClick={redirectToLogin}>PLS</button>
+            <button onClick={SignOut}>PLS</button>
             <p>{identifier.nameID}</p>
-            
+
         </div>
     )
 }

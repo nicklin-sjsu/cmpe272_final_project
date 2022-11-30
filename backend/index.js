@@ -1,7 +1,7 @@
 //imports
 const express = require("express");
 var cors = require('cors');
-const config =  require("./config/config");
+const config = require("./config/config");
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser')
@@ -49,14 +49,15 @@ app.use("/api/search", searchRoute);
 app.get("/login", passport.authenticate('saml', () => {
     console.log("login");
     return res.redirect("http://localhost:3000/sso");
-    
-    }));
 
-    app.get("/safety", (req, res) => {
-        console.log("safety");
-        return res.redirect("http://localhost:3000/sso");
-    });
+}));
+
+app.get("/safety", (req, res) => {
+    console.log("safety");
+    return res.redirect("http://localhost:3000/employees?mode=default");
+});
 app.post("/login/callback", passport.authenticate('saml', config.saml.options));
+
 app.get("/useridentity", (req, res, next) => {
     console.log("useridentity");
     if (!req.isAuthenticated()) {
