@@ -27,18 +27,13 @@ class NavUser extends Component {
 
     render() {
         const user = this.props.user;
+        console.log(user);
         return (
             <>
-
                 {
-                    user == null || isEmpty(user) ?
+                    isEmpty(user) ?
                         <>
-                            <SSO
-                                show={this.state.modalShow}
-                                onHide={() => this.setState({ modalShow: false })}
-                                setModalShow={this.setModalShow}
-                            />
-                            <Nav.Link className='text-danger' onClick={() => this.setModalShow(true)}>Login</Nav.Link>
+                            <Nav.Link className='text-danger'><a href="/sso">Login</a></Nav.Link>
                         </>
                         :
                         <NavDropdown title={user.firstName} id="basic-nav-dropdown">

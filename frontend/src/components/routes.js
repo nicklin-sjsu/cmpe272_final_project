@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { Component  } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import EmployeesPage from './admin/employees_page';
 import UserPage from './user/user_page';
 import UserDetails from './user/user_details';
@@ -11,55 +11,32 @@ import { getUser } from '../actions/userActions';
 import store from '../store';
 import { connect } from 'react-redux';
 import { isEmpty } from './utils';
-import CheckoutPage from './checkout/checkout_page';
 import SSO from './sso/sso';
 
 class routes extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            error: false,
-            loading: true,
-        }
-    }
-
-    componentDidMount() {
-        if (isEmpty(this.props.user)) {
-            //const token = sessionStorage.getItem("token");
-            //store.dispatch(getUser(token));
-            store.dispatch(getUser());
-        }
-        this.setState({ loading: false });
     }
 
     render() {
+        console.log(this.props.user);
         return (
             <Routes>
-                 <Route exact path="/sso" element={<SSO />} />
-                {this.state.error || this.state.loading
-                    ?
-                    <>
-                        <Route exact path="*" element={<Error />} />
-                    </>
-                    :
-                    <>
-                        {
-                            this.props.user && this.props.user.level === 'admin' ?
-                                <>
-                                    <Route exact path="/employees" element={<EmployeesPage />} />
-                                    <Route exact path="/user" element={<UserPage />} />
-                                    <Route exact path="/edituser" element={<ManagePage mode="edit" />} />
-                                    //<Route exact path="/adduser" element={<ManagePage mode="add" />} />
-                                    <Route exact path="/company" element={<CompanyPage />} />
-                                    <Route exact path="/titles" element={<TitlesPage />} />
-                                    <Route exact path="/sso" element={<SSO />} />
-                                </>
-                                :
-                                <>
-                                    <Route exact path="/user" element={<UserDetails />} />
-                                </>
-                        }
-                    </>
+                {
+                    this.props.user ?
+                        <>
+                            <Route exact path="/employees" element={<EmployeesPage />} />
+                            <Route exact path="/user" element={<UserPage />} />
+                            <Route exact path="/edituser" element={<ManagePage mode="edit" />} />
+                            //<Route exact path="/adduser" element={<ManagePage mode="add" />} />
+                            <Route exact path="/company" element={<CompanyPage />} />
+                            <Route exact path="/titles" element={<TitlesPage />} />
+                            <Route path="*" element={<Navigate to="/employees?mode=default" />} />
+                        </>
+                        :
+                        <>
+                            <Route exact path="*" element={<SSO />} />
+                        </>
                 }
             </Routes>
         )
