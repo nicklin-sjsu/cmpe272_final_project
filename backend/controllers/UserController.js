@@ -188,8 +188,8 @@ exports.getDepartmentsManagers = (req, res) => {
     titles.title FROM departments \
     JOIN dept_manager ON dept_manager.dept_no = departments.dept_no \
     JOIN employees ON employees.emp_no = dept_manager.emp_no \
-    LEFT JOIN titles ON titles.emp_no = dept_manager.emp_no \
-    WHERE dept_manager.to_date = '9999-01-01'"
+    JOIN titles ON titles.emp_no = dept_manager.emp_no \
+    WHERE dept_manager.to_date = '9999-01-01' AND titles.title = 'Manager'"
 
     db.query(sql, (err, results) => {
         if (err) {
