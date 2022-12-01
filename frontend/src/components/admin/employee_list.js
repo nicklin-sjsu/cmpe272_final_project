@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Form, Button, Card, Row, Col, Container } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import { connect } from 'react-redux';
 
 class employeeItem extends React.Component {

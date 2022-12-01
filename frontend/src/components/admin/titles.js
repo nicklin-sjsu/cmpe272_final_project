@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
-import { Button, Form, Card, Row, Col, Container } from "react-bootstrap";
-import Item from "../admin_menu/item"
-import { PlusCircle, XCircle } from 'react-bootstrap-icons';
+import { Button, Form, Card, Row, Col } from "react-bootstrap";
+import { XCircle } from 'react-bootstrap-icons';
 
 class Titles extends React.Component {
     constructor(props) {

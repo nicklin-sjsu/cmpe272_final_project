@@ -11,7 +11,6 @@ class Admin extends Component {
     render() {
         return (
             <>
-
                 <AdminNav />
                 <br />
                 <Container>

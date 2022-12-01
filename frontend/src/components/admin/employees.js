@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import EmployeeList from '../admin/employee_list';
-import TablePopup from '../admin/table_popup';
-import { connect } from 'react-redux';
 import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
 
 const count = 100;
@@ -321,11 +319,4 @@ class AdminMain extends Component {
     }
 }
 
-const mapStateToProps = store => {
-    return {
-        restaurant: store.restaurantState.restaurant,
-        user: store.userState.user,
-    };
-};
-
-export default connect(mapStateToProps)(AdminMain);
+export default AdminMain;

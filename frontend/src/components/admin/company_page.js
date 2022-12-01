@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from "react-bootstrap";
 import AdminNav from '../nav/admin_nav';
 import Departments from '../admin/departments';
-import Titles from '../admin/titles';
 
 class DepartmentsPage extends Component {
     constructor(props) {
