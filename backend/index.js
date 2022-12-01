@@ -1,7 +1,7 @@
 //imports
 const express = require("express");
 var cors = require('cors');
-const config =  require("./config/config");
+const config = require("./config/config");
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser')
@@ -39,24 +39,25 @@ app.use("/api/admin", adminRoute);
 app.use("/api/search", searchRoute);
 
 // SSO
-/*app.get("/useridentity", (req, res) => {
-    res.status(200).send({ data: "yooo" });
-});*/
-/*app.get("/login", passport.authenticate('saml', config.saml.options, (err, req, res, next) => {
-    console.log("login");
-    //return res.redirect("http://localhost:3000/sso");
-}));*/
+app.get("/logout", (req, res) => {
+    console.log("logout");
+    req.logout(() => {
+        res.send("logged out");
+    });
+});
+
 app.get("/login", passport.authenticate('saml', () => {
     console.log("login");
     return res.redirect("http://localhost:3000/sso");
-    
-    }));
 
-    app.get("/safety", (req, res) => {
-        console.log("safety");
-        return res.redirect("http://localhost:3000/sso");
-    });
+}));
+
+app.get("/safety", (req, res) => {
+    console.log("safety");
+    return res.redirect("http://localhost:3000/employees?mode=default");
+});
 app.post("/login/callback", passport.authenticate('saml', config.saml.options));
+
 app.get("/useridentity", (req, res, next) => {
     console.log("useridentity");
     if (!req.isAuthenticated()) {
