@@ -1,13 +1,9 @@
 import React, { Fragment } from "react";
 import { Card, Row, Col } from "react-bootstrap";
-import { connect } from 'react-redux';
 
 class employeeItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            modalShow: false,
-        };
     }
 
     render() {
@@ -54,11 +50,4 @@ class employeeItem extends React.Component {
     }
 }
 
-const mapStateToProps = store => {
-    return {
-        restaurant: store.restaurantState.restaurant,
-        user: store.userState.user,
-    };
-};
-
-export default connect(mapStateToProps)(employeeItem);
+export default employeeItem;
