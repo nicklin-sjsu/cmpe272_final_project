@@ -6,7 +6,7 @@ router.get("/getEmployeeCount", getEmployeeCount);
 router.get("/getByID", getByID);
 router.get("/getByDepartment", getByDepartment);
 router.get("/getDepartments", getDepartments);
-router.get("getTitles", getTitles);
+router.get("/getTitles", getTitles);
 router.get("/getDepartmentsManagers", getDepartmentsManagers);
 router.get("/editByID", editByID);
 router.get("/getByDepartmentCurrent", getByDepartmentCurrent);
