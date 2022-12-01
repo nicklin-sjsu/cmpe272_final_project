@@ -585,5 +585,9 @@ exports.removeDeptManager = (req, res) => {
                 message: "No department found"
             })
         }
+        return res.status(200).send({
+            status: "success removed manager",
+            results: results
+        })
     })
 }
