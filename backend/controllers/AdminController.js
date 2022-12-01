@@ -484,7 +484,7 @@ exports.deleteDepartment = (req, res) => {
 }
 
 //editDeptManager adds new manager and updates previous manager to_date to now in dept_manager table.
-exports.editDeptManager = (req,res) => {
+exports.editDeptManager = (req, res) => {
 
     const id = req.query.id
     const dept_no = req.query.dept_no
@@ -523,4 +523,56 @@ exports.editDeptManager = (req,res) => {
             })
         })
     })
- }
+}
+
+//addDeptManger adds new manager to table for the given dept_no and emp_id
+exports.addDeptManager = (req, res) => {
+
+    const emp_id = req.query.emp_id
+    const dept_no = req.query.dept_no
+
+
+    let sql2 = "INSERT INTO dept_manager (emp_no,dept_no ,from_date, to_date) VALUES (?, ?, NOW(), '9999-01-01')"
+    db.query(sql2, [emp_id, dept_no], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No user found"
+            })
+        }
+        return res.status(200).send({
+            status: "successfully added new manager",
+            results: results
+        })
+    })
+
+}
+
+//removeDeptManager updates previous manager to_date to now in dept_manager table.
+exports.removeDeptManager = (req, res) => {
+
+    const emp_id = req.query.emp_id
+    const dept_no = req.query.dept_no
+
+    let sql = "UPDATE dept_manager SET to_date = NOW() WHERE dept_no = ? and to_date = '9999-01-01'"
+    db.query(sql, [dept_no], (err, results) => {
+        if (err) {
+            return res.status(401).send({
+                status: "error",
+                message: err
+            })
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({
+                status: "error",
+                message: "No department found"
+            })
+        }
+    })
+}

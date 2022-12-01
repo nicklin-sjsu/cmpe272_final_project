@@ -32,14 +32,16 @@ const SSO = () => {
     }
 
     const SignOut = () => {
-        /*axios.get('http://localhost:5002/logout')
+        //window.open("https://trial-1322739.okta.com/login/signout");
+        axios.get('http://localhost:5002/logout', { withCredentials: true })
             .then(res => {
                 console.log(res);
-                //window.location.replace("http://localhost:3000/");
-            }).catch(err => {
+                window.location.replace("https://trial-1322739.okta.com/login/signout");
+            }
+            ).catch(err => {
                 console.log(err);
-            });*/
-            console.log("failure");
+            }
+            );
     }
 
     if (loading) {

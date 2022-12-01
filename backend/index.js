@@ -39,13 +39,13 @@ app.use("/api/admin", adminRoute);
 app.use("/api/search", searchRoute);
 
 // SSO
-/*app.get("/useridentity", (req, res) => {
-    res.status(200).send({ data: "yooo" });
-});*/
-/*app.get("/login", passport.authenticate('saml', config.saml.options, (err, req, res, next) => {
-    console.log("login");
-    //return res.redirect("http://localhost:3000/sso");
-}));*/
+app.get("/logout", (req, res) => {
+    console.log("logout");
+    req.logout(() => {
+        res.send("logged out");
+    });
+});
+
 app.get("/login", passport.authenticate('saml', () => {
     console.log("login");
     return res.redirect("http://localhost:3000/sso");
