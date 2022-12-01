@@ -429,9 +429,20 @@ exports.editDepartment = (req, res) => {
     })
 }
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 // addDepartment adds department to the table
 exports.addDepartment = (req, res) => {
-    const id = req.query.id;
+    //Make 4 char dept_no
+    const id = makeid(4);
     const dept_name = req.query.dept_name;
 
     let sqlquery = "INSERT INTO departments (dept_no,dept_name) values (?,?)"
