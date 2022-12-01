@@ -51,38 +51,37 @@ class ManageUser extends Component {
             });
     }
     getDetails() {
-        if (this.props.user.level === "admin") {
-            const searchParams = new URLSearchParams(document.location.search);
-            const emp_no = searchParams.get('emp_no');
-            var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
-            if (emp_no !== null) {
-                fetch(api + "/api/admin/getByID?" + new URLSearchParams({
-                    id: emp_no,
-                }))
-                    .then((response) => {
-                        if (response.status === 200) {
-                            return response.json();
-                        } else {
-                            alert(response.statusText);
-                        }
-                    })
-                    .then((data) => {
-                        this.setState({
-                            result: data.results,
-                            id: data.results.userData.emp_no,
-                            first_name: data.results.userData.first_name,
-                            last_name: data.results.userData.last_name,
-                            gender: data.results.userData.gender,
-                            birth_date: data.results.userData.birth_date.split('T')[0],
-                            hire_date: data.results.userData.hire_date.split('T')[0],
-                            dept_no: data.results.deptData[0].dept_no,
-                            title: data.results.titleData[0].title,
-                            dept_original: data.results.deptData[0].dept_no,
-                            title_original: data.results.titleData[0].title,
-                            salary: data.results.salaryData[0].salary,
-                        });
+        const searchParams = new URLSearchParams(document.location.search);
+        const emp_no = searchParams.get('emp_no');
+        var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
+        if (emp_no !== null) {
+            fetch(api + "/api/admin/getByID?" + new URLSearchParams({
+                id: emp_no,
+            }))
+                .then((response) => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        alert(response.statusText);
+                    }
+                })
+                .then((data) => {
+                    this.setState({
+                        result: data.results,
+                        id: data.results.userData.emp_no,
+                        first_name: data.results.userData.first_name,
+                        last_name: data.results.userData.last_name,
+                        gender: data.results.userData.gender,
+                        birth_date: data.results.userData.birth_date.split('T')[0],
+                        hire_date: data.results.userData.hire_date.split('T')[0],
+                        dept_no: data.results.deptData[0].dept_no,
+                        title: data.results.titleData[0].title,
+                        dept_original: data.results.deptData[0].dept_no,
+                        title_original: data.results.titleData[0].title,
+                        salary_original: data.results.salaryData[0].salary,
+                        salary: data.results.salaryData[0].salary,
                     });
-            }
+                });
         }
     }
     handleFirstNameChange(e) {
@@ -159,6 +158,16 @@ class ManageUser extends Component {
                     }
                 } else {
                     alert(rmTitleResponse.statusText);
+                }
+            }
+            if (this.state.salary !== this.state.salary_original) {
+                var salaryResponse = await fetch(api + "/api/admin/editSalary?" + new URLSearchParams({
+                    id: this.state.id,
+                    salary: this.state.salary,
+                }));
+                if (salaryResponse.status === 200) {
+                } else {
+                    alert(salaryResponse.statusText);
                 }
             }
         } else {

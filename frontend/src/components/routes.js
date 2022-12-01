@@ -19,11 +19,10 @@ class routes extends Component {
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <Routes>
                 {
-                    this.props.user ?
+                    !isEmpty(this.props.user) ?
                         <>
                             <Route exact path="/employees" element={<EmployeesPage />} />
                             <Route exact path="/user" element={<UserPage />} />

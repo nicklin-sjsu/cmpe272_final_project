@@ -31,23 +31,21 @@ class UserDetails extends Component {
     }
 
     getDetails() {
-        if (this.props.user.level === "admin") {
-            var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
-            if (emp_no !== null) {
-                fetch(api + "/api/admin/getByID?" + new URLSearchParams({
-                    id: emp_no,
-                }))
-                    .then((response) => {
-                        if (response.status === 200) {
-                            return response.json();
-                        } else {
-                            alert(response.statusText);
-                        }
-                    })
-                    .then((data) => {
-                        this.setState({ result: data.results, loading: false });
-                    });
-            }
+        var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
+        if (emp_no !== null) {
+            fetch(api + "/api/admin/getByID?" + new URLSearchParams({
+                id: emp_no,
+            }))
+                .then((response) => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        alert(response.statusText);
+                    }
+                })
+                .then((data) => {
+                    this.setState({ result: data.results, loading: false });
+                });
         }
     }
     render() {
@@ -55,12 +53,10 @@ class UserDetails extends Component {
             return (<></>);
         }
         var user = this.state.user;
-        if (this.props.user.level === "admin") {
-            user = this.state.result.userData;
-            user.salary = this.state.result.salaryData[0].salary;
-            user.department = this.state.result.deptData[0].dept_name;
-            user.title = this.state.result.titleData[0].title;
-        }
+        user = this.state.result.userData;
+        user.salary = this.state.result.salaryData[0].salary;
+        user.department = this.state.result.deptData[0].dept_name;
+        user.title = this.state.result.titleData[0].title;
         return (
             <Container>
                 <h3>Employee Details</h3>

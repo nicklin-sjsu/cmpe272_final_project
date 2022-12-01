@@ -45,7 +45,7 @@ class AdminMain extends Component {
                 }
             })
             .then(data2 => {
-                fetch(api + "/api/user/getDepartmentsManagers")
+                fetch(api + "/api/user/getTitles")
                     .then((response) => {
                         if (response.status === 200) {
                             return response.json();
@@ -165,7 +165,7 @@ class AdminMain extends Component {
                                             </Form.Group>
                                         </Col>
                                         <Col>
-                                            <a href={"/admin?" + new URLSearchParams({
+                                            <a href={"/employees?" + new URLSearchParams({
                                                 page: 1,
                                                 name: this.state.name,
                                                 title: this.state.title,
@@ -253,9 +253,18 @@ class AdminMain extends Component {
                     <span className="me-auto">
                         {page > 1 ?
                             <>
-                                <a className="btn btn-primary me-1" href="/admin?page=1">{"<<First"}</a>
+                                <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
+                                    page: 1,
+                                    name: this.state.name,
+                                    title: this.state.title,
+                                    dept_name: this.state.dept_name,
+                                    title: this.state.title,
+                                    mode: this.state.mode,
+                                    col: this.state.col,
+                                    order: this.state.order,
+                                })}>{"<<First"}</a>
                                 {page > 10 ?
-                                    <a className="btn btn-primary me-1" href={"/admin?" + new URLSearchParams({
+                                    <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
                                         page: page - 10,
                                         name: this.state.name,
                                         title: this.state.title,
@@ -268,7 +277,7 @@ class AdminMain extends Component {
                                     :
                                     <></>
                                 }
-                                <a className="btn btn-primary me-1" href={"/admin?" + new URLSearchParams({
+                                <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
                                     page: page - 1,
                                     name: this.state.name,
                                     title: this.state.title,
@@ -285,7 +294,7 @@ class AdminMain extends Component {
 
                     </span>
                     <span>
-                        <a className="btn btn-primary me-1" href={"/admin?" + new URLSearchParams({
+                        <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
                             page: page + 1,
                             name: this.state.name,
                             title: this.state.title,
@@ -295,7 +304,7 @@ class AdminMain extends Component {
                             col: this.state.col,
                             order: this.state.order,
                         })}>{"Next>"}</a>
-                        <a className="btn btn-primary me-1" href={"/admin?" + new URLSearchParams({
+                        <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
                             page: page + 10,
                             name: this.state.name,
                             title: this.state.title,

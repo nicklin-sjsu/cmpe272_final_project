@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Nav, NavDropdown } from 'react-bootstrap';
-import SSO from '../sso/sso';
+import { NavDropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import store from "../../store";
 import { setUser } from "../../actions/userActions";
-import { isEmpty } from "../utils";
-import { createUrl } from "../utils";
 
 class NavUser extends Component {
     constructor(props) {
@@ -20,34 +17,24 @@ class NavUser extends Component {
         this.setState({ modalShow: show });
     }
 
-    handleLogout() {
-        sessionStorage.setItem("token", "");
-        store.dispatch(setUser({}));
+    async handleLogout() {
+        var api = "http://localhost:5002";
+        const response = await fetch(api + '/logout', { credentials: 'include' })
+        if (response.status === 200) {
+            await store.dispatch(setUser({}));
+            window.location.replace("https://trial-1322739.okta.com/login/signout");
+        } else {
+            alert(response.statusText);
+        }
     }
 
     render() {
         const user = this.props.user;
-        console.log(user);
         return (
             <>
-                {
-                    isEmpty(user) ?
-                        <>
-                            <Nav.Link className='text-danger'><a href="/sso">Login</a></Nav.Link>
-                        </>
-                        :
-                        <NavDropdown title={user.firstName} id="basic-nav-dropdown">
-                            {/*<NavDropdown.Item href="/profile">Profile</NavDropdown.Item>*/}
-                            {this.props.orders
-                                ?
-                                <NavDropdown.Item href={createUrl("/restaurant/user_order")}>Your Order</NavDropdown.Item>
-                                :
-                                <></>
-                            }
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#" onClick={() => this.handleLogout()}>Log Out</NavDropdown.Item>
-                        </NavDropdown>
-                }
+                <NavDropdown title="Admin" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#" onClick={() => this.handleLogout()}>Log Out</NavDropdown.Item>
+                </NavDropdown>
             </>
         );
     }

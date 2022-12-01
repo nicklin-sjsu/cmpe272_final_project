@@ -39,6 +39,7 @@ class Departments extends React.Component {
                                 managers[manager.dept_no] = manager.emp_no;
                             }
                         })
+                        console.log(managers);
                         this.setState({ departments: data.results, managers: managers, managers_original: managers });
                     });
             });
@@ -98,37 +99,61 @@ class Departments extends React.Component {
         this.setState({ managers: values });
     };
 
-    handleSave(index) {
+    async handleSave(index) {
         var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
         var api_name = "/api/admin/editDepartment?";
         const dept_no = this.state.departments[index].dept_no;
         const dept_name = this.state.departments[index].dept_name;
         var department = { dept_no: dept_no, dept_name: dept_name };
+        const emp_id = this.state.managers[dept_no];
+        const emp_id_original = this.state.managers_original[dept_no];
+        var msg = "";
 
-        fetch(api + api_name + new URLSearchParams(department))
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    alert(response.statusText);
-                }
-            })
+        const deptResponse = await fetch(api + api_name + new URLSearchParams(department))
+        if (deptResponse.status === 200) {
+            msg += "Department Changes Saved\n";
+        } else {
+            msg = deptResponse.statusText + "\n";
+        }
 
-        if (this.state.managers_original[dept_no] !== this.state.managers[dept_no] && !(!this.state.managers_original[dept_no] && this.state.managers[dept_no] === "")) {
+        if (emp_id_original !== emp_id && !(!this.state.managers_original[dept_no] && emp_id === "")) {
             var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
-            var api_name = "/api/admin/editDeptManager?";
-            fetch(api + api_name + new URLSearchParams({
-                id: this.state.managers[dept_no],
+            if (this.state.managers_original[dept_no]) {
+                var api_name = "/api/admin/removeDeptManager?";
+                const rmManResponse = await fetch(api + api_name + new URLSearchParams({
+                    emp_id: emp_id_original,
+                    dept_no: dept_no,
+                }))
+                if (rmManResponse.status === 200) {
+                    msg += "Original Manager Removed\n";
+                } else {
+                    msg += rmManResponse.statusText + "\n";
+                }
+            }
+            var api_name = "/api/admin/addDeptManager?";
+            const addManResponse = await fetch(api + api_name + new URLSearchParams({
+                emp_id: emp_id,
                 dept_no: dept_no,
             }))
-                .then((response) => {
-                    if (response.status === 200) {
-                        return response.json();
-                    } else {
-                        alert(response.statusText);
-                    }
-                })
+            if (addManResponse.status === 200) {
+                var api_name = "/api/admin/addEmpTitle?";
+                const addManTitleResponse = await fetch(api + api_name + new URLSearchParams({
+                    id: emp_id,
+                    title: "Manager",
+                }))
+                if (addManTitleResponse.status === 200) {
+                    const values = { ...this.state.managers_original };
+                    values[dept_no] = emp_id;
+                    await this.setState({ managers_original: values });
+                    msg += "New Manager Added";
+                } else {
+                    msg += addManTitleResponse.statusText + "\n";
+                }
+            } else {
+                msg += addManResponse.statusText + "\n";
+            }
         }
+        alert(msg);
     }
 
     render() {
@@ -151,7 +176,7 @@ class Departments extends React.Component {
                                                 id={item.dept_no}
                                                 value={item.dept_name}
                                                 onChange={e => this.handleInputChange(index, e.target.value)}
-                                            /><br/>
+                                            /><br />
                                             <Form.Label>Manager id</Form.Label>
                                             <Form.Control
                                                 type="number"
