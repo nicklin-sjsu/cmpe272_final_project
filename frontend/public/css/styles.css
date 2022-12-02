@@ -189,3 +189,7 @@ footer .footer-contents {
     display: none;
   }
 }
+
+.wait-div {
+    text-align: center;
+}

@@ -1,21 +1,89 @@
-# RestaurantMan 
-The project was made using react and bootstrap. For icons [Sketch-icons](https://sketch-icons.netlify.app/) and Ionicons were used. 
+<a name="readme-top"></a>
 
-## Outputs 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="public/img/img.png" alt="Logo" width="80" height="80">
+  </a>
 
-![ui1](https://firebasestorage.googleapis.com/v0/b/react-firechat-ae4bf.appspot.com/o/ui-design1.png?alt=media&token=949fe6b5-1e9b-497e-9de5-5d7d1185ed94)
+  <h3 align="center">Four Guys++ Frontend</h3>
 
-On pressing the `PLACE ORDER` button the promotion modal opens up.
+  <p align="center">
+    An awsome hr management website frontend
+    <br />
+    <br />
+    <a href="">View Demo</a>
+  </p>
+</div>
 
-![ui2](https://firebasestorage.googleapis.com/v0/b/react-firechat-ae4bf.appspot.com/o/ui-design2.png?alt=media&token=8873b079-c877-4683-bddf-38923e876b43)
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-**Demo Link :** [https://ui-design.garudatechnology.com/](https://ui-design.garudatechnology.com/)
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-# How to run
+Awesome HR website Frontend!!!
 
-``` bash
-git clone https://github.com/ndrohith09/ui-design.git
-cd ui-design
-yarn install
-yarn start
+Here's why:
+* Simple yet powerful functionalities
+* Clean looks
+
+### Built With
+* [![React][React.js]][React-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* Redux
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+* Git - [Download & Install Git](https://git-scm.com/downloads). OSX and Linux machines typically have this already installed.
+
+* Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager. If you encounter any problems, you can also use this [GitHub Gist](https://gist.github.com/isaacs/579814) to install Node.js.
+
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+1. Clone the repo
+   ```sh
+   git clone https://github.com/nicklin-sjsu/cmpe272_final_project.git
+   ```
+2. Go to Frontend folder
+   ```sh
+   cd frontend
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+
+<!-- USAGE EXAMPLES -->
+## Start Server
+Run your application using npm:
+
+```bash
+$ npm start
 ```
+The website should be opened automatically in `localhost:3000`
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+We welcome pull requests from the community!
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Nick Lin - nicklin1219@gmail.com
+
+<!-- LICENSE -->
+## License
+[The MIT License](LICENSE.md)
