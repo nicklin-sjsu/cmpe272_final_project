@@ -18,7 +18,7 @@ class NavUser extends Component {
     }
 
     async handleLogout() {
-        var api = "http://localhost:5002";
+        var api = process.env.REACT_API || "http://localhost:5002";
         const response = await fetch(api + '/logout', { credentials: 'include' })
         if (response.status === 200) {
             await store.dispatch(setUser({}));
