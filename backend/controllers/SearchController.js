@@ -96,9 +96,6 @@ exports.searchNameAdvanced = (req, res) => {
 
     for (let i = 0; i < words.length; i++) {
         if (i === words.length - 1) {
-            if(words.length > 1) { 
-                sql += `(first_name LIKE '%${words[0]}%' AND last_name LIKE '%${words[1]}%)' OR `
-            }
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%'`
         } else {
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `
@@ -245,10 +242,33 @@ exports.searchEverything = (req, res) => {
 
         let message = "success";
 
-        return res.status(200).send({
-            status: message,
-            results: results
-        })
+        if (results.length === 10000) {
+            message = "Returned more than 10,000 results. Please refine your search for more accurate results."
+        }
+
+        //use levenshtein distance to find closest match to original search
+
+        if (name) {
+            let searchResults = results
+            .map((result) => {
+                return {
+                    ...result,
+                    distance: levenshtein.get(name, result.first_name + " " + result.last_name)
+                }
+            })
+            .sort((a, b) => a.distance - b.distance)
+            .slice(0, 100); // only return top 100 results
+            return res.status(200).send({
+                status: message,
+                results: searchResults
+            })
+        } else {
+            return res.status(200).send({
+                status: message,
+                results: results
+            })
+        }
+
     }
     )
 };
