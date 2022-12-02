@@ -180,6 +180,8 @@ class AdminMain extends Component {
                                                 dept_name: this.state.dept_name,
                                                 title: this.state.title,
                                                 mode: "search",
+                                                col: this.state.col,
+                                                order: this.state.order,
                                             })} className="my-4 btn btn-primary">
                                                 Search
                                             </a>
