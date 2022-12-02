@@ -49,13 +49,13 @@ app.get("/logout", (req, res) => {
 
 app.get("/login", passport.authenticate('saml', () => {
     console.log("login");
-    return res.redirect("http://localhost:3000/sso");
+    return res.redirect("http://54.183.160.128:5002/sso");
 
 }));
 
 app.get("/safety", (req, res) => {
     console.log("safety");
-    return res.redirect("http://localhost:3000/employees?mode=default");
+    return res.redirect("http://54.183.160.128:5002/employees?mode=default");
 });
 app.post("/login/callback", passport.authenticate('saml', config.saml.options));
 
