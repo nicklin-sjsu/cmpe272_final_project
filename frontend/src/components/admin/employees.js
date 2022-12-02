@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import EmployeeList from '../admin/employee_list';
 import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
+import { ClipLoader } from 'react-spinners';
 
 const count = 100;
 const searchParams = new URLSearchParams(document.location.search);
@@ -24,6 +25,7 @@ class AdminMain extends Component {
             dept_name: dept_name,
             title: title,
             employees: [],
+            wait: true,
         };
     }
 
@@ -91,7 +93,7 @@ class AdminMain extends Component {
                     }
                 })
                 .then((data) => {
-                    this.setState({ employees: data.results, mode: "search" });
+                    this.setState({ employees: data.results, mode: "search", wait: false });
                 });
         }
     }
@@ -109,7 +111,7 @@ class AdminMain extends Component {
         if (this.state.col !== col || this.state.order === "DESC") {
             order = "ASC"
         }
-        await this.setState({ col: col, order: order });
+        await this.setState({ col: col, order: order, wait: true });
         this.getList(this.state.mode);
     }
 
@@ -119,6 +121,14 @@ class AdminMain extends Component {
         return (
             <>
                 <Container>
+                    {this.state.wait
+                        ?
+                        <div className="text-center">
+                            <ClipLoader color={"#123abc"} />
+                        </div>
+                        :
+                        <></>
+                    }
                     <Row>
                         {mode === "default" || mode === "search" ?
                             <Card className="mb-2">
@@ -189,54 +199,74 @@ class AdminMain extends Component {
                                     <Col>
                                         #
                                         <a href="#" className="ms-1 text-dark" onClick={() => this.handleSort("emp_no")}>
-                                            {this.state.col === "emp_no" && this.state.order === "ASC"
+                                            {mode !== "managers"
                                                 ?
-                                                <CaretUpFill />
+                                                this.state.col === "emp_no" && this.state.order === "ASC"
+                                                    ?
+                                                    <CaretUpFill />
+                                                    :
+                                                    <CaretDownFill />
                                                 :
-                                                <CaretDownFill />
+                                                <></>
                                             }
                                         </a>
                                     </Col>
                                     <Col>
                                         First Name
                                         <a href="#" className="ms-1 text-dark" onClick={() => this.handleSort("first_name")}>
-                                            {this.state.col === "first_name" && this.state.order === "ASC"
+                                            {mode !== "managers"
                                                 ?
-                                                <CaretUpFill />
+                                                this.state.col === "first_name" && this.state.order === "ASC"
+                                                    ?
+                                                    <CaretUpFill />
+                                                    :
+                                                    <CaretDownFill />
                                                 :
-                                                <CaretDownFill />
+                                                <></>
                                             }
                                         </a>
                                     </Col>
                                     <Col>
                                         Last Name
                                         <a href="#" className="ms-1 text-dark" onClick={() => this.handleSort("last_name")}>
-                                            {this.state.col === "last_name" && this.state.order === "ASC"
+                                            {mode !== "managers"
                                                 ?
-                                                <CaretUpFill />
+                                                this.state.col === "last_name" && this.state.order === "ASC"
+                                                    ?
+                                                    <CaretUpFill />
+                                                    :
+                                                    <CaretDownFill />
                                                 :
-                                                <CaretDownFill />
+                                                <></>
                                             }
                                         </a>
                                     </Col>
                                     <Col>
                                         Department
                                         <a href="#" className="ms-1 text-dark" onClick={() => this.handleSort("dept_name")}>
-                                            {this.state.col === "dept_name" && this.state.order === "ASC"
+                                            {mode !== "managers"
                                                 ?
-                                                <CaretUpFill />
+                                                this.state.col === "dept_name" && this.state.order === "ASC"
+                                                    ?
+                                                    <CaretUpFill />
+                                                    :
+                                                    <CaretDownFill />
                                                 :
-                                                <CaretDownFill />
+                                                <></>
                                             }
                                         </a>
                                     </Col>
                                     <Col>Title
                                         <a href="#" className="ms-1 text-dark" onClick={() => this.handleSort("title")}>
-                                            {this.state.col === "title" && this.state.order === "ASC"
+                                            {mode !== "managers"
                                                 ?
-                                                <CaretUpFill />
+                                                this.state.col === "title" && this.state.order === "ASC"
+                                                    ?
+                                                    <CaretUpFill />
+                                                    :
+                                                    <CaretDownFill />
                                                 :
-                                                <CaretDownFill />
+                                                <></>
                                             }
                                         </a>
                                     </Col>
@@ -247,23 +277,14 @@ class AdminMain extends Component {
                     </Row>
                     <EmployeeList employees={this.state.employees} />
                 </Container>
-                <div className="d-flex">
-                    <span className="me-auto">
-                        {page > 1 ?
-                            <>
-                                <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
-                                    page: 1,
-                                    name: this.state.name,
-                                    title: this.state.title,
-                                    dept_name: this.state.dept_name,
-                                    title: this.state.title,
-                                    mode: this.state.mode,
-                                    col: this.state.col,
-                                    order: this.state.order,
-                                })}>{"<<First"}</a>
-                                {page > 10 ?
+                {mode !== "managers"
+                    ?
+                    <div className="d-flex">
+                        <span className="me-auto">
+                            {page > 1 ?
+                                <>
                                     <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
-                                        page: page - 10,
+                                        page: 1,
                                         name: this.state.name,
                                         title: this.state.title,
                                         dept_name: this.state.dept_name,
@@ -271,49 +292,63 @@ class AdminMain extends Component {
                                         mode: this.state.mode,
                                         col: this.state.col,
                                         order: this.state.order,
-                                    })}>{"<Prev 10"}</a>
-                                    :
-                                    <></>
-                                }
-                                <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
-                                    page: page - 1,
-                                    name: this.state.name,
-                                    title: this.state.title,
-                                    dept_name: this.state.dept_name,
-                                    title: this.state.title,
-                                    mode: this.state.mode,
-                                    col: this.state.col,
-                                    order: this.state.order,
-                                })}>{"<Prev"}</a>
-                            </>
-                            :
-                            <></>
-                        }
+                                    })}>{"<<First"}</a>
+                                    {page > 10 ?
+                                        <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
+                                            page: page - 10,
+                                            name: this.state.name,
+                                            title: this.state.title,
+                                            dept_name: this.state.dept_name,
+                                            title: this.state.title,
+                                            mode: this.state.mode,
+                                            col: this.state.col,
+                                            order: this.state.order,
+                                        })}>{"<Prev 10"}</a>
+                                        :
+                                        <></>
+                                    }
+                                    <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
+                                        page: page - 1,
+                                        name: this.state.name,
+                                        title: this.state.title,
+                                        dept_name: this.state.dept_name,
+                                        title: this.state.title,
+                                        mode: this.state.mode,
+                                        col: this.state.col,
+                                        order: this.state.order,
+                                    })}>{"<Prev"}</a>
+                                </>
+                                :
+                                <></>
+                            }
 
-                    </span>
-                    <span>
-                        <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
-                            page: page + 1,
-                            name: this.state.name,
-                            title: this.state.title,
-                            dept_name: this.state.dept_name,
-                            title: this.state.title,
-                            mode: this.state.mode,
-                            col: this.state.col,
-                            order: this.state.order,
-                        })}>{"Next>"}</a>
-                        <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
-                            page: page + 10,
-                            name: this.state.name,
-                            title: this.state.title,
-                            dept_name: this.state.dept_name,
-                            title: this.state.title,
-                            mode: this.state.mode,
-                            col: this.state.col,
-                            order: this.state.order,
-                        })}>{"Next 10>>"}</a>
-                    </span>
-                </div>
+                        </span>
+                        <span>
+                            <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
+                                page: page + 1,
+                                name: this.state.name,
+                                title: this.state.title,
+                                dept_name: this.state.dept_name,
+                                title: this.state.title,
+                                mode: this.state.mode,
+                                col: this.state.col,
+                                order: this.state.order,
+                            })}>{"Next>"}</a>
+                            <a className="btn btn-primary me-1" href={window.location.pathname + "?" + new URLSearchParams({
+                                page: page + 10,
+                                name: this.state.name,
+                                title: this.state.title,
+                                dept_name: this.state.dept_name,
+                                title: this.state.title,
+                                mode: this.state.mode,
+                                col: this.state.col,
+                                order: this.state.order,
+                            })}>{"Next 10>>"}</a>
+                        </span>
+                    </div>
+                    :
+                    <></>
+                }
             </>
         );
     }
