@@ -11,7 +11,7 @@ class SSO extends React.Component {
         this.getIdentity();
     }
     async getIdentity() {
-        var api = process.env.REACT_API ||"http://localhost:5002";
+        var api = process.env.REACT_APP_API ||"http://localhost:5002";
         const response = await fetch(api + '/useridentity', { credentials: 'include' })
         if (response.status === 200) {
             const data = await response.json();
