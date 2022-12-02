@@ -96,6 +96,9 @@ exports.searchNameAdvanced = (req, res) => {
 
     for (let i = 0; i < words.length; i++) {
         if (i === words.length - 1) {
+            if(words.length > 1) { 
+                sql += `(first_name LIKE '%${words[0]}%' AND last_name LIKE '%${words[1]}%)' OR `
+            }
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%'`
         } else {
             sql += `first_name LIKE '%${words[i]}%' OR last_name LIKE '%${words[i]}%' OR `

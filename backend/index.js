@@ -30,6 +30,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", req.header('origin'));
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Private-Network", "true")
     next();
 });
 
@@ -48,13 +49,13 @@ app.get("/logout", (req, res) => {
 
 app.get("/login", passport.authenticate('saml', () => {
     console.log("login");
-    return res.redirect("http://localhost:3000/sso");
+    return res.redirect("http://54.183.160.128:3000/sso");
 
 }));
 
 app.get("/safety", (req, res) => {
     console.log("safety");
-    return res.redirect("http://localhost:3000/employees?mode=default");
+    return res.redirect("http://54.183.160.128:3000/employees?mode=default");
 });
 app.post("/login/callback", passport.authenticate('saml', config.saml.options));
 
