@@ -462,7 +462,8 @@ exports.addDepartment = (req, res) => {
         }
         return res.status(200).send({
             status: "success",
-            result: result
+            result: result,
+            id: id,
         })
     })
 
