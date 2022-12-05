@@ -47,7 +47,7 @@ class Departments extends React.Component {
     handleAddFields() {
         var api = process.env.REACT_APP_API || "http://192.168.56.1:5002";
         var api_name = "/api/admin/addDepartment?";
-        var department = { id: Math.floor(Math.random() * 100), dept_name: "Default Name" };
+        var department = { dept_name: "Default Name" };
 
         fetch(api + api_name + new URLSearchParams(department))
             .then((response) => {
@@ -59,7 +59,7 @@ class Departments extends React.Component {
             })
             .then((data) => {
                 const values = [...this.state.departments];
-                department.dept_no = department.id;
+                department.dept_no = data.id;
                 values.push(department);
                 this.setState({ departments: values });
             });
