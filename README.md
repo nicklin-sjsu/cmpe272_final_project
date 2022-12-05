@@ -1,8 +1,8 @@
 # cmpe272_final_project
 Final project for cmpe 272
 
-Backend contains a simple hello world express server; node index.js
-Frontend contains the default react create page; npm start
+Currently running at: http://54.183.160.128:3000/  
 
-Added gitignore file 
-    - from now on modules aren't uploaded so you will have to do 'npm i' after pulling to install all the packages the first time or if someone adds a new package you will have to run 'npm i' again 
+Demo login details:  
+Username: hr.admin@company272.com   
+Password: Fourguys4  
